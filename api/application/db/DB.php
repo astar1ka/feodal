@@ -218,7 +218,7 @@
         //////////////forVillages///////////////
         ////////////////////////////////////////
         public function createVillage($name, $posX, $posY){
-
+        //nado
         }
 
         public function getVillage($id) {
