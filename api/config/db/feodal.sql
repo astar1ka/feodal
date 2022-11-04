@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3308
--- Время создания: Ноя 02 2022 г., 10:08
--- Версия сервера: 8.0.15
--- Версия PHP: 7.1.22
+-- Хост: 127.0.0.1:3306
+-- Время создания: Ноя 04 2022 г., 20:53
+-- Версия сервера: 8.0.30
+-- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,61 +24,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `castles`
---
-
-CREATE TABLE `castles` (
-  `id` int(11) NOT NULL,
-  `gamerId` int(11) NOT NULL,
-  `lvl` int(11) NOT NULL DEFAULT '1',
-  `money` int(11) NOT NULL DEFAULT '1000',
-  `posX` double NOT NULL,
-  `posY` double NOT NULL,
-  `hp` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `castles`
---
-
-INSERT INTO `castles` (`id`, `gamerId`, `lvl`, `money`, `posX`, `posY`, `hp`) VALUES
-(2, 2, 1, 1000, 1, 2, 300);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `castleslevels`
---
-
-CREATE TABLE `castleslevels` (
-  `id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `maxHp` int(11) NOT NULL,
-  `cost` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `castleslevels`
---
-
-INSERT INTO `castleslevels` (`id`, `name`, `maxHp`, `cost`) VALUES
-(1, 'Гортус', 300, 0),
-(2, 'Виртус', 650, 1000),
-(3, 'Принципал', 1200, 2500),
-(4, 'Торнорум', 2000, 10000),
-(5, 'Доминион', 5000, 45000);
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `gamers`
 --
 
 CREATE TABLE `gamers` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `money` int(11) NOT NULL DEFAULT '1000',
-  `castleLevel` int(11) NOT NULL DEFAULT '1',
+  `id` int NOT NULL,
+  `userId` int NOT NULL,
+  `money` int NOT NULL DEFAULT '1000',
+  `castleLevel` int NOT NULL DEFAULT '1',
   `castleX` varchar(256) NOT NULL,
   `castleY` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -98,7 +50,7 @@ INSERT INTO `gamers` (`id`, `userId`, `money`, `castleLevel`, `castleX`, `castle
 --
 
 CREATE TABLE `maps` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(256) NOT NULL,
   `tiles` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -110,10 +62,10 @@ CREATE TABLE `maps` (
 --
 
 CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `userId` int NOT NULL,
   `message` varchar(256) NOT NULL,
-  `messageTo` int(11) DEFAULT NULL
+  `messageTo` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -136,7 +88,7 @@ INSERT INTO `messages` (`id`, `userId`, `message`, `messageTo`) VALUES
 --
 
 CREATE TABLE `statuses` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `chatHash` varchar(256) NOT NULL,
   `mapHash` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `unitsHash` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -157,10 +109,10 @@ INSERT INTO `statuses` (`id`, `chatHash`, `mapHash`, `unitsHash`, `mapTimeStamp`
 --
 
 CREATE TABLE `units` (
-  `id` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
-  `gamerId` int(11) NOT NULL,
-  `hp` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `type` int NOT NULL,
+  `gamerId` int NOT NULL,
+  `hp` int NOT NULL,
   `posX` double NOT NULL DEFAULT '0',
   `posY` double DEFAULT '0',
   `status` varchar(256) NOT NULL DEFAULT 'inCastle',
@@ -183,11 +135,11 @@ INSERT INTO `units` (`id`, `type`, `gamerId`, `hp`, `posX`, `posY`, `status`, `d
 --
 
 CREATE TABLE `unittypes` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(256) NOT NULL,
-  `hp` int(11) NOT NULL,
-  `cost` int(11) NOT NULL,
-  `damage` int(11) NOT NULL,
+  `hp` int NOT NULL,
+  `cost` int NOT NULL,
+  `damage` int NOT NULL,
   `speed` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPACT;
 
@@ -205,7 +157,7 @@ INSERT INTO `unittypes` (`id`, `name`, `hp`, `cost`, `damage`, `speed`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `login` varchar(256) NOT NULL,
   `password` varchar(256) NOT NULL,
   `name` varchar(256) NOT NULL,
@@ -227,30 +179,18 @@ INSERT INTO `users` (`id`, `login`, `password`, `name`, `token`) VALUES
 --
 
 CREATE TABLE `villages` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(256) NOT NULL,
-  `level` int(11) NOT NULL,
-  `population` int(11) NOT NULL,
+  `level` int NOT NULL,
+  `population` int NOT NULL,
   `posX` double NOT NULL,
   `posY` double NOT NULL,
-  `money` int(11) NOT NULL
+  `money` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Индексы сохранённых таблиц
 --
-
---
--- Индексы таблицы `castles`
---
-ALTER TABLE `castles`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `castleslevels`
---
-ALTER TABLE `castleslevels`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `gamers`
@@ -306,64 +246,52 @@ ALTER TABLE `villages`
 --
 
 --
--- AUTO_INCREMENT для таблицы `castles`
---
-ALTER TABLE `castles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT для таблицы `castleslevels`
---
-ALTER TABLE `castleslevels`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT для таблицы `gamers`
 --
 ALTER TABLE `gamers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `maps`
 --
 ALTER TABLE `maps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `statuses`
 --
 ALTER TABLE `statuses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `units`
 --
 ALTER TABLE `units`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT для таблицы `unittypes`
 --
 ALTER TABLE `unittypes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `villages`
 --
 ALTER TABLE `villages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
