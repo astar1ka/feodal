@@ -218,7 +218,7 @@
         //////////////forCastles////////////////
         ////////////////////////////////////////
         public function createVillage($name, $posX, $posY){
-
+        //надо сделать
         }
 
         public function getVillage($id) {
