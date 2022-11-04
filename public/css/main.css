@@ -1,0 +1,10 @@
+.hidden {
+    display: none;
+}
+
+.chat {
+    display: absolute;
+    resize: none;
+    width: 200px;
+    height: 400px;
+}
