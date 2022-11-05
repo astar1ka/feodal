@@ -4,8 +4,14 @@
             $this->db = $db;
         }
 
+        private function getCastleLevelCost($level) {
+            return 300*$level + $level*$level*200;
+        }
+
         public function getCastle($gamer) {
-            return array('castle'=>$this->db->getCastle($gamer));
+            return array(
+                'castle'=>$this->db->getCastle($gamer)
+            );
         }
 
         public function addCastle($user) {
@@ -17,16 +23,17 @@
         }
 
         public function upgradeCastle($gamer) {
-            $castle = $this->db->getCastle($gamer);
-            if ($castle && $castle->Level<5) {
-                $money = $gamer->money;
-                $cost = $castle->Level
-                if ($money>=$cost) {
+            $castle = $this->db->getCastle($gamer->id);
+            if ($castle->Level<5) {
+                $cost = $this->getCastleLevelCost($castle->level);
+                if ($gamer->money>=$cost) {
                     $this->db->castleLevelUp($castle->id);
                     $this->db->updateMoney($user, -$cost);
                     $hash = md5(rand());
                     $this->db->setMapHash($hash);
-                    return array ('gold'=>$this->db->getGold($user));
+                    return array (
+                        'gold'=>$this->db->getGold($user)
+                    );
                 }
             }
         }

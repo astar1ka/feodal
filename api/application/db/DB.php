@@ -86,31 +86,31 @@
 
         public function addMessage($user, $message, $messageTo){
             $query = '
-            INSERT INTO messages (userId, message, messageTo) 
-            VALUES (' . $user . ',"' . $message . '", ' .  $messageTo . ')';
+                INSERT INTO messages (userId, message, messageTo) 
+                VALUES (' . $user . ',"' . $message . '", ' .  $messageTo . ')';
             $this->db->query($query);
             return true;
         }
 
         public function getMessages($user) {
             $query = '
-            SELECT u.name as name ,m.message as message, m.id, m.messageTo 
-            FROM messages as m JOIN users AS u ON u.id=m.userId 
-            WHERE (userId=' . $user . ' or messageTo is NULL or messageTo=' . $user . ') ORDER BY m.id';
+                SELECT u.name as name, m.message as message, m.messageTo 
+                FROM messages as m JOIN users AS u ON u.id=m.userId 
+                WHERE (userId=' . $user . ' or messageTo is NULL or messageTo=' . $user . ') ORDER BY m.id';
             return $this->getArray($query);
         }
 
         public function getChatHash() {
             $query = '
-            SELECT chatHash 
-            FROM statuses';
+                SELECT chatHash 
+                FROM statuses';
             return $this->db->query($query)->fetchObject()->chatHash;
         }
 
         public function setChatHash($hash){
             $query = '
-            UPDATE statuses 
-            SET chatHash="' . $hash . '"';
+                UPDATE statuses 
+                SET chatHash="' . $hash . '"';
             $this->db->query($query);
         }
 
@@ -119,23 +119,23 @@
         ////////////////////////////////////////
         public function getMap($id) {
             $query = '
-            SELECT tiles 
-            FROM Maps 
-            WHERE id=' . $id;
+                SELECT tiles 
+                FROM Maps 
+                WHERE id=' . $id;
             return $this->db->query($query)->fetchObject()->tiles;
         }
 
         public function getUnitsTypes() {
             $query = '
-            SELECT * 
-            FROM unitsTypes';
+                SELECT * 
+                FROM unitsTypes';
             return $this->getArray($query);
         }
 
         public function getCastlesLevels() {
             $query = '
-            SELECT * 
-            FROM castlesLevels';
+                SELECT * 
+                FROM castlesLevels';
             return $this->getArray($query);
         }
 
@@ -161,35 +161,27 @@
 
         public function getCastles() {
             $query = '
-            SELECT id, userId, lvl, hp, posX, posY 
-            FROM castles';
+                SELECT id, userId, lvl, hp, posX, posY 
+                FROM castles';
             return $this->getArray($query);
         }
 
         public function castleLevelUp($gamerId){
             $query = '
-            UPDATE gamers SET 
-            castleLevel=castleLevel + 1   
-            WHERE id=' . $gamerId ;
+                UPDATE gamers SET 
+                castleLevel=castleLevel + 1   
+                WHERE id=' . $gamerId ;
             $this->db->query($query);
             return true;
         }
 
-        public function getUpgradeCastleCost($lvl){
-            $query = '
-            SELECT cost 
-            FROM castlesLevels 
-            WHERE Id=' . $lvl;
-            return $this->db->query($query)->fetchObject()->cost;
-        }
-
-        public function getMoney($gamer){
+        /*public function getMoney($gamer){
             $query = '
             SELECT money 
             FROM gamers 
             WHERE id=' . $gamer;
             return $this->db->query($query)->fetchObject()->money;
-        }
+        }*/
 
         public function updateMoney($gamer, $money){
             $query = '
@@ -215,7 +207,7 @@
         }
 
         ////////////////////////////////////////
-        //////////////forCastles////////////////
+        //////////////forVillages///////////////
         ////////////////////////////////////////
         public function createVillage($name, $posX, $posY){
         //надо сделать
@@ -248,10 +240,10 @@
         //////////////forUnits//////////////////
         ////////////////////////////////////////
 
-        public function addUnit($user, $unit) {
+        public function addUnit($gamer, $unit) {
             $query = '
-            INSERT INTO units (ownerId, typeId, hp) 
-            VALUES (' . $user . ',' . $unit . ', (SELECT maxHp FROM unitsTypes WHERE id='. $unit .'))';
+            INSERT INTO units (gamerId, type, hp) 
+            VALUES (' . $gamer . ',' . $unit . ', (SELECT hp FROM unitsTypes WHERE id='. $unit .'))';
             $this->db->query($query);
             return true;
         }
@@ -267,7 +259,8 @@
         public function getUnits() {
             $query = '
             SELECT * 
-            FROM units';
+            FROM units
+            ORDER BY gamerId';
             return $this->getArray($query);
         }
 
@@ -290,7 +283,7 @@
         ////////////////////////////////////////
         public function getGamer($user) {
             $query = '
-            SELECT id, gold 
+            SELECT id, money 
             FROM gamers 
             WHERE userId=' . $user;
             return $this->db->query($query)->fetchObject();

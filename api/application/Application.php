@@ -49,16 +49,16 @@ class Application {
             }
     }
 
-
     ////////////////////////////////////////
     //////////////forChat///////////////////
     ////////////////////////////////////////
     
-    public function sendMessage($params) {
+    public function sendMessage($params, $type) {
         ['token'=>$token,
         'message'=>$message,
         'messageTo'=>$messageTo
         ] = $params;
+        if ($type="all") $messageTo="NULL";
         $user = $this->user->getUser($token);
         if ($user && $message) {
             return $this->chat->sendMessage($user, $message, $messageTo);
@@ -91,6 +91,13 @@ class Application {
         }
     }
 
+    public function getUnitsTypes($params) {
+        $user = $this->user->getUser($params['token']);
+        if ($user) {
+            return $this->game->getUnitsTypes();
+        }
+    }
+
     public function getScene($params) {
         $user = $this->user->getUser($params['token']);
         if ($user) {
@@ -117,7 +124,9 @@ class Application {
         $user = $this->user->getUser($params['token']);
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
-            return $this->gamer->upgradeCastle($gamer);
+            if ($gamer) {
+                return $this->gamer->upgradeCastle($gamer);
+            }
         }
     }
 

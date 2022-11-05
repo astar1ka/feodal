@@ -25,21 +25,27 @@
             );
         }
 
+        public function getUnitsTypes() {
+            return $this->db->getUnitsTypes();
+        }
+
         public function getScene($updates, $unitsHash, $mapHash) {
             $unitsHashDB = $this->db->getUnitsHash();
             if ($unitsHash != $unitsHashDB) {
                 $units = $this->db->getUnits();
+                
             }
-            $castlesHashDB = $this->db->getMapHash();
+            $mapHashDB = $this->db->getMapHash();
             if ($unitsHash != $unitsHashDB) {
                 $castles = $this->db->getCastles();
+                $villages = $this->db->getVillages();
             }
             return array (
                 'unitsHash' => $unitsHashDB,
-                'castlesHash' => $castlesHashDB,
+                'mapHash' => $castlesHashDB,
                 'castles' => $castles,
+                'villages' => $villages,
                 'unit' => $units
             );
         } 
-
     }
