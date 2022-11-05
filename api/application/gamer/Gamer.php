@@ -38,6 +38,19 @@
             }
         }
 
+        public function buyUnit($gamer, $unitType) {
+            $castle = $this->db->getCastle($gamer->id);
+            $money = $gamer->money;
+            $cost = $this->db->getUnitCost($unitType);
+            if ($money>=$cost) {
+                $this->db->addUnit($gamer->id, $unitType);
+                $this->db->updateGold($user, -$cost);
+                $hash = md5(rand());
+                $this->db->setUnitsHash($hash);
+                return array ('money'=>$this->db->getGold($user));
+            }
+        }
+
         public function getGamer($user) {
             return $this->db->getGamer($user);
         }
