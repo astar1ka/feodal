@@ -117,10 +117,10 @@ class DB {
     ////////////////////////////////////////
     public function getMap($id) {
         $query = '
-                SELECT tiles 
+                SELECT layer1, layer2, layer3 
                 FROM Maps 
                 WHERE id=' . $id;
-        return $this->db->query($query)->fetchObject()->tiles;
+        return $this->db->query($query)->fetchObject();
     }
 
     public function getUnitsTypes() {
