@@ -104,6 +104,9 @@ class Application {
             return $this->game->getScene($params['updates'], $params['unitsHash'], $params['castlesHash']);
         }
     }
+    public function updateMap() {
+        $this->game->updateMap();
+    }
 
     ////////////////////////////////////////
     //////////////forGamer//////////////////
@@ -135,8 +138,34 @@ class Application {
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
             if ($gamer) {
-                return $this->game->buyUnit($user, $params['unitType']);
+                return $this->gamer->buyUnit($gamer, $params['unitType']);
             }
         } 
+    }
+
+    public function robVillage($params){
+        $user = $this->user->getUser($params['token']);
+        if ($user) {
+            $gamer = $this->gamer->getGamer($user);
+            $village = $this->game->getVillage($params['village']);
+            if ($gamer && $village) {
+                return $this->gamer->robVillage($gamer, $village);
+            }
+        }
+    }
+
+    public function destroyVillage($params){
+        $user = $this->user->getUser($params['token']);
+        if ($user) {
+            $gamer = $this->gamer->getGamer($user);
+            $village = $this->game->getVillage($params['village']);
+            if ($gamer && $village) {
+                return $this->gamer->destroyVillage($gamer, $village);
+            }
+        }
+    }
+
+    public function destroyCastle($params){
+        
     }
 }

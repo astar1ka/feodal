@@ -4,6 +4,48 @@
             $this->db = $db;
         }
 
+        public function updateMap() {
+            $timeDB = $this->db->getMapTimeStamp();
+            $time = time();
+            if ($time>=$timeDB) {
+                $this->db->setMapTimeStamp($time+30);
+                $this->db->updateVillagePopulations();
+                $this->db->updateVillagesMoney();
+                if (count($this->db->getVillages())<10){
+                    $this->addVillage();
+                }
+            }
+            $this->db->updateVillagesLevel();
+        }
+
+        public function addVillage(){
+            $posX = rand(0,120000) / 1000;
+            $posY = rand(0,120000) / 1000;
+            switch (rand(1,4)) {
+                case 1: $subname="Верхние ";
+                break;
+                case 2: $subname="Нижние ";
+                break;
+                case 3: $subname="Болотистые ";
+                break;
+                case 4: $subname="Далёкие ";
+                break;
+            }
+            switch (rand(1,4)) {
+                case 1: $name="Потёмки";
+                break;
+                case 2: $name="Свистульки";
+                break;
+                case 3: $name="Разгромки";
+                break;
+                case 4: $name="Удалёнки";
+                break;
+            }
+            $this->db->createVillage($subname . $name, $posX, $posY);
+            $hash = md5(rand());
+            $this->db->setMapHash($hash);
+        }
+
         public function getMap() {
             return array (
                 'map' => $this->db->getMap(1)
@@ -21,16 +63,20 @@
                 
             }
             $mapHashDB = $this->db->getMapHash();
-            if ($unitsHash != $unitsHashDB) {
+            if ($mapHash != $mapHashDB) { 
                 $castles = $this->db->getCastles();
-                $villages = $this->db->getVillages();
+                $villages = $this->db->getVillages();                   
             }
             return array (
                 'unitsHash' => $unitsHashDB,
-                'mapHash' => $castlesHashDB,
-                'castles' => $castles,
+                'mapHash' => $mapHashDB,
+                'castles' => $castles, 
                 'villages' => $villages,
                 'unit' => $units
             );
-        } 
+        }
+
+        public function getVillage($villageId) {
+            return $this->db->getVillage($villageId);
+        }
     }

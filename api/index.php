@@ -7,6 +7,7 @@ function router($params) {
     $method = $params['method'];
     if ($method) {
         $app = new Application();
+        $app->updateMap();
         switch ($method) {
             case 'check' : return true;
             //////////
@@ -28,6 +29,9 @@ function router($params) {
             case 'getCastle': return $app->getCastle($params);
             case 'upgradeCastle': return $app->upgradeCastle($params);
             case 'buyUnit': return $app->buyUnit($params);
+            case 'robVillage': return $app->robVillage($params);
+            case 'destroyVillage': return $app->destroyVillage($params);
+            case 'destroyCastle': return $app->destroyCastle($params);
             ///////////
             // GAME //
             //////////
@@ -35,9 +39,6 @@ function router($params) {
             case 'getScene': return $app->getScene($params);
             case 'getUnitsTypes': return $app->getUnitsTypes($params);
             //case 'updateUnits': return $app->updateUnits($params);
-            case 'robVillage': return $app->robVillage($params);
-            case 'destroyVillage': return $app->destroyVillage($params);
-            case 'destroyCastle': return $app->destroyCastle($params);
         }
     }
     return false;
