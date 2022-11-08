@@ -129,6 +129,35 @@ data:
             ]
     }
 
+### getUnitsTypes
+
+Запрос:
+
+/api?method=getUnitsTypes&token=XXX
+
+Входные параметры:
+
+token - токен пользователя, если пользователь не авторизован, запрос вернет ошибку.
+
+Ответ:
+
+data:
+
+    {
+
+        [
+            {
+                "id": "X",
+                "name": "abc",
+                "hp": "xx",
+                "cost": "xx",
+                "damage": "x",
+                "speed": "x"
+            }
+        ]
+
+    }
+
 ### getCastle
 
 Запрос:
