@@ -142,11 +142,11 @@ data:
     {
         "castle":
             {
-                "id": "X",
-                "castleLevel": "X",
-                "castleX": "xx.xxx",
-                "castleY": "xx.xxx",
-                "money": "xxx"
+                "id": "X",   //id замка
+                "castleLevel": "X",   //уровень замка
+                "castleX": "xx.xxx",   //координаты замка по X, где единица - это один тайл.
+                "castleY": "xx.xxx",  //координаты замка по Y, где единица - это один тайл.
+                "money": "xxx"   //деньги игрока
             }
     }
 

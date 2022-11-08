@@ -21,8 +21,8 @@
         }
 
         public function addVillage(){
-            $posX = rand(0,120000) / 1000;
-            $posY = rand(0,120000) / 1000;
+            $posX = rand(0,160000) / 1000;
+            $posY = rand(0,160000) / 1000;
             switch (rand(1,4)) {
                 case 1: $subname="Верхние ";
                 break;

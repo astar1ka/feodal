@@ -15,8 +15,8 @@
         }
 
         public function addCastle($user) {
-            $castleX = rand(0,120000) / 1000;
-            $castleY = rand(0,120000) / 1000;
+            $castleX = rand(0,160000) / 1000;
+            $castleY = rand(0,160000) / 1000;
             $this->db->addCastle($user, $castleX, $castleY);
             $hash = md5(rand());
             $this->db->setMapHash($hash);
