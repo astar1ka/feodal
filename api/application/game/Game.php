@@ -14,8 +14,10 @@
                 if (count($this->db->getVillages())<10){
                     $this->addVillage();
                 }
+                $this->db->updateVillagesLevel();
+                $hash = md5(rand());
+                $this->db->setMapHash($hash);
             }
-            $this->db->updateVillagesLevel();
         }
 
         public function addVillage(){
@@ -42,8 +44,6 @@
                 break;
             }
             $this->db->createVillage($subname . $name, $posX, $posY);
-            $hash = md5(rand());
-            $this->db->setMapHash($hash);
         }
 
         public function getMap() {
