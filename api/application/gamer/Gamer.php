@@ -26,7 +26,7 @@
         public function upgradeCastle($gamer) {
             $castle = $this->db->getCastle($gamer);
             if ($castle->Level<5) {
-                $cost = $this->getCastleLevelCost($castle->level);
+                $cost = $this->getCastleLevelCost($castle->castleLevel);
                 if ($this->db->getMoney($gamer)>=$cost) {
                     $this->db->castleLevelUp($castle->id);
                     $this->db->updateMoney($gamer, -$cost);
