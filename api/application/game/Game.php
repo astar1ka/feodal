@@ -8,7 +8,7 @@
             $timeDB = $this->db->getMapTimeStamp();
             $time = time();
             if ($time>=$timeDB) {
-                $this->db->setMapTimeStamp($time+30);
+                $this->db->setMapTimeStamp($time+300);
                 $this->db->updateVillagePopulations();
                 $this->db->updateVillagesMoney();
                 if (count($this->db->getVillages())<10){
