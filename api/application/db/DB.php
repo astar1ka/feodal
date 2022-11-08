@@ -236,7 +236,7 @@ class DB {
         $query = 'UPDATE villages 
                 SET money = money - 300*level-level*level*200,
                 level=level + 1
-                WHERE money>300*level+level*level*200';
+                WHERE (money>300*level+level*level*200) AND (level<11)';
         $this->db->query($query);
         return true;
     }
