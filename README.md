@@ -1,6 +1,6 @@
 # feodal
 
-getMap
+### getMap
 
 /api?method=getMap&token=XXX
 
@@ -26,4 +26,3 @@ data:
 
     }
 
-    
