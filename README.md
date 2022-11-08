@@ -153,7 +153,8 @@ data:
                 "cost": "xx",
                 "damage": "x",
                 "speed": "x"
-            }
+            },
+            ...
         ]
 
     }
