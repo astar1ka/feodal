@@ -101,7 +101,7 @@ class Application {
     public function getScene($params) {
         $user = $this->user->getUser($params['token']);
         if ($user) {
-            return $this->game->getScene($params['updates'], $params['unitsHash'], $params['castlesHash']);
+            return $this->game->getScene($params['updates'], $params['unitsHash'], $params['mapHash']);
         }
     }
     public function updateMap() {

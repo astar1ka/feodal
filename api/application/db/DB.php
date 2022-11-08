@@ -130,8 +130,6 @@ class DB {
         return $this->getArray($query);
     }
 
-    
-
     public function getMapTimeStamp() {
         $query = 'SELECT mapTimeStamp FROM statuses';
         return $this->db->query($query)->fetchObject()->mapTimeStamp;
@@ -164,7 +162,7 @@ class DB {
 
     public function getCastles() {
         $query = '
-                SELECT id, userId, castleLevel, castleX, castleY 
+                SELECT id, userId, castleLevel, castleX as posX, castleY as posY 
                 FROM gamers';
         return $this->getArray($query);
     }
@@ -289,8 +287,8 @@ class DB {
 
     public function getUnits() {
         $query = '
-            SELECT * 
-            FROM units
+            SELECT u.id as id, g.userId as userId, u.type as type, u.hp as hp, u.posX as posX, u.posY as posY, u.status as status, u.direction as direction 
+            FROM units as u JOIN gamers as g ON u.gamerId=g.id
             ORDER BY gamerId';
         return $this->getArray($query);
     }

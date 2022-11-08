@@ -60,7 +60,6 @@
             $unitsHashDB = $this->db->getUnitsHash();
             if ($unitsHash != $unitsHashDB) {
                 $units = $this->db->getUnits();
-                
             }
             $mapHashDB = $this->db->getMapHash();
             if ($mapHash != $mapHashDB) { 
