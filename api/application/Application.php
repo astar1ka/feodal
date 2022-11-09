@@ -54,13 +54,14 @@ class Application {
     ////////////////////////////////////////
     
     public function sendMessage($params, $type) {
-        ['token'=>$token,
-        'message'=>$message,
-        'messageTo'=>$messageTo
+        [
+            'token'=>$token,
+            'message'=>$message,
+            'messageTo'=>$messageTo
         ] = $params;
-        if ($type==="all") {
-            $messageTo="NULL";
-        };
+        if ($type === "all") { 
+            $messageTo = "NULL";
+        }
         $user = $this->user->getUser($token);
         if ($user && $message) {
             return $this->chat->sendMessage($user, $message, $messageTo);
@@ -103,7 +104,7 @@ class Application {
     public function getScene($params) {
         $user = $this->user->getUser($params['token']);
         if ($user) {
-            return $this->game->getScene($params['updates'], $params['unitsHash'], $params['mapHash']);
+            return $this->game->getScene($params['unitsHash'], $params['mapHash']);
         }
     }
     public function updateMap() {
@@ -169,5 +170,19 @@ class Application {
 
     public function destroyCastle($params){
         
+    }
+
+    public function updateUnits($params) {
+        $userId = $this->user->getUser($params['token']);
+        if ($userId) {
+            $gamerId = $this->gamer->getGamer($userId);
+            if ($gamerId) {
+                $time = $this->gamer->updateUnits($gamerId, $params['units']);
+                if ($time) {
+                    $this->game->updateMap($time);
+                }
+                return true;
+            }
+        }
     }
 }

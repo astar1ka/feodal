@@ -79,4 +79,15 @@
         public function getGamer($user) {
             return $this->db->getGamer($user);
         }
+
+        public function updateUnits($gamerId, $unitsStr) {
+            // $this->db->updateUnits($gamerId, $unitsStr);
+            $this->db->setUnitsHash(md5(rand()));
+            $statuses = $this->db->getStatuses();
+            $time = microtime();
+            if ($time - $statuses->mapTimeStamp >= 300) {
+                $this->db->setMapTimeStamp($time);
+                return $time;
+            }
+        }
     }

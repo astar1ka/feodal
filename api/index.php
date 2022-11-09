@@ -7,7 +7,7 @@ function router($params) {
     $method = $params['method'];
     if ($method) {
         $app = new Application();
-        $app->updateMap();
+        // $app->updateMap();
         switch ($method) {
             case 'check' : return true;
             //////////
@@ -38,7 +38,7 @@ function router($params) {
             case 'getMap': return $app->getMap($params);
             case 'getScene': return $app->getScene($params);
             case 'getUnitsTypes': return $app->getUnitsTypes($params);
-            //case 'updateUnits': return $app->updateUnits($params);
+            case 'updateUnits': return $app->updateUnits($params);
         }
     }
     return false;
