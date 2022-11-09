@@ -58,7 +58,9 @@ class Application {
         'message'=>$message,
         'messageTo'=>$messageTo
         ] = $params;
-        if ($type="all") $messageTo="NULL";
+        if ($type==="all") {
+            $messageTo="NULL";
+        };
         $user = $this->user->getUser($token);
         if ($user && $message) {
             return $this->chat->sendMessage($user, $message, $messageTo);
