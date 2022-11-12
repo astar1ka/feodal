@@ -113,7 +113,7 @@ class DB {
     ////////////////////////////////////////
     public function getMap() {
         $query = '
-                SELECT tiles
+                SELECT layer1, layer2, layer3
                 FROM Maps
             ';
         return $this->getArray($query);
@@ -141,17 +141,9 @@ class DB {
         return true;
     }
 
-    public function getCastle($gamerId) {
-        $query = '
-                SELECT id, castleLevel, castleX, castleY, money
-                FROM gamers
-                WHERE id=' . $gamerId;
-        return $this->db->query($query)->fetchObject();
-    }
-
     public function getCastles() {
         $query = '
-                SELECT g.id as id, u.name as name, g.castleLevel as castleLevel, g.castleX as posX, g.castleY as posY 
+                SELECT g.id as id, u.name as ownerName, g.castleLevel as Level, g.castleX as posX, g.castleY as posY 
                 FROM gamers as g 
                 JOIN users as u ON g.userId=u.id
             ';
@@ -249,26 +241,26 @@ class DB {
     //////////////forUnits//////////////////
     ////////////////////////////////////////
 
-    public function addUnit($gamer, $unit) {
+    public function addUnit($gamer, $unit, $hp, $posX, $posY) {
         $query = '
             INSERT INTO units (gamerId, type, hp, posX, posY) 
-            VALUES (' . $gamer . ',' . $unit . ', (SELECT hp FROM unitsTypes WHERE id=' . $unit . '),(SELECT castleX FROM gamers WHERE id=' . $gamer . '),(SELECT castleY FROM gamers WHERE id=' . $gamer . ') )';
+            VALUES ('.$gamer.', '.$unit.', '.$hp.', '.$posX.', '.$posY.')';
         $this->db->query($query);
         return true;
     }
 
-    public function getUnitCost($unitType) {
+    public function getUnitTypeData($unitType) {
         $query = '
-            SELECT cost 
+            SELECT cost, hp
             FROM unitsTypes 
             WHERE id=' . $unitType;
-        return $this->db->query($query)->fetchObject()->cost;
+        return $this->db->query($query)->fetchObject();
     }
 
     public function getUnits() {
         $query = '
-            SELECT u.id as id, g.userId as userId, u.type as type, u.hp as hp, u.posX as posX, u.posY as posY, u.status as status, u.direction as direction 
-            FROM units as u JOIN gamers as g ON u.gamerId=g.id
+            SELECT id, gamerId as ownerId, type, hp, posX, posY, status, direction 
+            FROM units
             ORDER BY gamerId';
         return $this->getArray($query);
     }
@@ -279,10 +271,10 @@ class DB {
     ////////////////////////////////////////
     public function getGamer($user) {
         $query = '
-            SELECT id 
+            SELECT *
             FROM gamers 
             WHERE userId=' . $user;
-        return $this->db->query($query)->fetchObject()->id;
+        return $this->db->query($query)->fetchObject();
     }
 
     /*public function getGamerByToken($token) {

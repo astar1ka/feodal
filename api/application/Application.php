@@ -69,9 +69,11 @@ class Application {
     }
     
     public function getMessages($params) {
-        $user = $this->user->getUser($params['token']);
-        if ($user) {
-            return $this->chat->getMessages($params['hash'], $user);
+        if ($params['hash']) {
+            $user = $this->user->getUser($params['token']);
+            if ($user) {
+                return $this->chat->getMessages($params['hash'], $user);
+            }
         }
     }
 
@@ -121,6 +123,7 @@ class Application {
             $gamer = $this->gamer->getGamer($user);
             if (!$gamer) {
                 $this->gamer->addCastle($user);
+                $gamer = $this->gamer->getGamer($user);
             }
             return $this->gamer->getCastle($gamer);
         }

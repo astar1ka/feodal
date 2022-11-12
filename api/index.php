@@ -7,7 +7,6 @@ function router($params) {
     $method = $params['method'];
     if ($method) {
         $app = new Application();
-        // $app->updateMap();
         switch ($method) {
             case 'check' : return true;
             //////////

@@ -56,8 +56,8 @@ data:
             [
                 {
                     "id":"X",
-                    "userId":"X",
-                    "castleLevel":"X",
+                    "ownerName":"X",
+                    "Level":"X",
                     "posX":"xx.xxx",
                     "posY":"xx.xxx",
                 },
@@ -81,7 +81,7 @@ data:
             [
                 {
                     "id":"X",
-                    "userId":"X",
+                    "ownerId":"X",
                     "type":"X",
                     "hp":"X",
                     "posX":"xx.xxx",
@@ -143,9 +143,9 @@ data:
         "castle":
             {
                 "id": "X",   //id замка
-                "castleLevel": "X",   //уровень замка
-                "castleX": "xx.xxx",   //координаты замка по X, где единица - это один тайл.
-                "castleY": "xx.xxx",  //координаты замка по Y, где единица - это один тайл.
+                "Level": "X",   //уровень замка
+                "posX": "xx.xxx",   //координаты замка по X, где единица - это один тайл.
+                "posY": "xx.xxx",  //координаты замка по Y, где единица - это один тайл.
                 "money": "xxx"   //деньги игрока
             }
     }
