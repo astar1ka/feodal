@@ -84,8 +84,11 @@
             return $this->db->getGamer($user);
         }
 
-        public function updateUnits($gamerId, $unitsStr) {
-            // $this->db->updateUnits($gamerId, $unitsStr);
+        public function updateUnits($unitsStr) {
+            // foreach unit
+            // $this->db->updateUnit($unitId, $prop, $value);
+            // }
+
             $this->db->setUnitsHash(md5(rand()));
             $statuses = $this->db->getStatuses();
             $time = microtime();
@@ -93,5 +96,15 @@
                 $this->db->setMapTimeStamp($time);
                 return $time;
             }
+        }
+
+        public function healUnit($unitId){
+            // #53 Miro
+            // $this->db->updateUnit($unitId, $prop, 100);
+        }
+
+        public function damageUnit($unitId){
+            // #54 Miro
+            // $this->db->updateUnit(...);
         }
     }

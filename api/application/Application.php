@@ -178,9 +178,9 @@ class Application {
     public function updateUnits($params) {
         $userId = $this->user->getUser($params['token']);
         if ($userId) {
-            $gamerId = $this->gamer->getGamer($userId);
-            if ($gamerId) {
-                $time = $this->gamer->updateUnits($gamerId, $params['units']);
+            $gamer = $this->gamer->getGamer($userId);
+            if ($gamer) {
+                $time = $this->gamer->updateUnits($params['units']);
                 if ($time) {
                     $this->game->updateMap($time);
                 }

@@ -265,6 +265,15 @@ class DB {
         return $this->getArray($query);
     }
 
+    // По id отдельного юнита меняет у него любое property в БД
+    public function updateUnit($unitId, $prop, $value){
+        $query = '
+            UPDATE units
+            SET '. $prop .'='. $value.'
+            WHERE id=' .$unitId;
+        $this->db->query($query);
+        return true;
+    }
 
     ////////////////////////////////////////
     //////////////forGamers/////////////////
