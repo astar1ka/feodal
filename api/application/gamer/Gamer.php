@@ -88,7 +88,7 @@
             // foreach unit
             // $this->db->updateUnit($unitId, $hp, $posX, $posY, $status, $direction);
             // }
-
+            
             $this->db->setUnitsHash(md5(rand()));
             $statuses = $this->db->getStatuses();
             $time = microtime();
