@@ -8,18 +8,6 @@
             return 300*$level + $level*$level*200;
         }
 
-        public function getCastle($gamer) {
-            return array(
-                'castle'=>array (
-                    'id'=>$gamer->id,
-                    'level'=>$gamer->castleLevel,
-                    'posX'=>$gamer->castleX,
-                    'posY'=>$gamer->castleY,
-                    'money'=>$gamer->money
-                )
-            );
-        }
-
         public function addCastle($userId) {
             $castleX = rand(0,160000) / 1000;
             $castleY = rand(0,160000) / 1000;
@@ -30,8 +18,8 @@
         }
 
         public function upgradeCastle($gamer) {
-            if ($gamer->castleLevel < 5) {
-                $cost = $this->getCastleLevelCost($gamer->castleLevel);
+            if ($gamer->level < 5) {
+                $cost = $this->getCastleLevelCost($gamer->level);
                 if ($gamer->money >= $cost) {
                     $this->db->castleLevelUp($gamer->id);
                     $this->db->updateMoney($gamer->id, -$cost);
@@ -47,13 +35,19 @@
         public function buyUnit($gamer, $unitType) {
             $unitTypeData = $this->db->getUnitTypeData($unitType);
             if ($gamer->money >= $unitTypeData->cost) {
-                $this->db->addUnit($gamer->id, $unitType, $unitTypeData->hp, $gamer->castleX, $gamer->castleY);
+                $this->db->addUnit($gamer->id, $unitType, $unitTypeData->hp, $gamer->posX, $gamer->posY);
                 $this->db->updateMoney($gamer->id, -$unitTypeData->cost);
                 $hash = md5(rand());
                 $this->db->setUnitsHash($hash);
                 return array (
                     'money'=>$this->db->getMoney($gamer->id)
                 );
+            }
+        }
+
+        public function getUnitsInCastle($gamerId) {
+            if ($gamerId) {
+                return $this->db->getUnitsInCastle($gamerId);
             }
         }
 
@@ -79,13 +73,14 @@
             );
         }
 
-        public function destroyCastle($gamer,$castle){
-            $this->db->destroyCastle($castle->id);
-            $this->db->updateMoney($gamer->id, $castle->money);
-            return array(
-                'money'=>$this->db->getMoney($gamer->id),
-            );
-
+        public function destroyCastle($gamer,$castle) {
+            if ($gamer->id != $castle->id) {
+                $this->db->destroyCastle($castle->id);
+                $this->db->updateMoney($gamer->id, $castle->money);
+                return array(
+                    'money'=>$this->db->getMoney($gamer->id),
+                );
+            }
         }
 
         public function getGamer($userId) {

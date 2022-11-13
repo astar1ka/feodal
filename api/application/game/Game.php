@@ -36,6 +36,11 @@
             return $this->db->getVillage($villageId);
         }
 
+        public function getCastle($castleId) {
+            if ($castleId) {
+                return $this->db->getCastle($castleId);
+            }
+        }
 
         public function getScene($unitsHash, $mapHash) {
             $statuses = $this->db->getStatuses();

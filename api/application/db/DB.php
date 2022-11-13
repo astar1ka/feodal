@@ -141,6 +141,11 @@ class DB {
         return true;
     }
 
+    public function getCastle($id) {
+        $query = 'SELECT id, castleX as posX, castleY as posY, money FROM gamers WHERE id='.$id;
+        return $this->db->query($query)->fetchObject();
+    }
+
     public function getCastles() {
         $query = '
                 SELECT g.id as id, u.name as ownerName, g.castleLevel as Level, g.castleX as posX, g.castleY as posY 
@@ -195,7 +200,7 @@ class DB {
     }
 
     public function getVillage($id) {
-        $query = 'SELECT id, money, population FROM villages';
+        $query = 'SELECT id, money, population FROM villages WHERE id='.$id;
         return $this->db->query($query)->fetchObject();
     }
 
@@ -257,6 +262,14 @@ class DB {
         return $this->db->query($query)->fetchObject();
     }
 
+    public function getUnitsInCastle($castleId){
+        $query = '
+        SELECT id, type, hp, posX, posY, status, direction 
+        FROM units
+        WHERE status="inCastle" and gamerId='.$castleId;
+    return $this->getArray($query);
+    }
+
     public function getUnits() {
         $query = '
             SELECT id, gamerId as ownerId, type, hp, posX, posY, status, direction 
@@ -281,16 +294,11 @@ class DB {
     ////////////////////////////////////////
     public function getGamer($user) {
         $query = '
-            SELECT *
+            SELECT id, castleLevel as level, castleX as posX, castleY as posY, money
             FROM gamers 
             WHERE userId=' . $user;
         return $this->db->query($query)->fetchObject();
     }
-
-    /*public function getGamerByToken($token) {
-            $query = 'SELECT g.id AS id FROM gamers AS g JOIN users as u ON g.userId=u.id WHERE u.token=' . $token;
-            return $this->db->query($query)->fetchObject()->id;
-        }*/
 
     /* About statuses */
     public function getStatuses() {

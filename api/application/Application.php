@@ -125,7 +125,9 @@ class Application {
                 $this->gamer->addCastle($user);
                 $gamer = $this->gamer->getGamer($user);
             }
-            return $this->gamer->getCastle($gamer);
+            return array(
+                'castle' => $gamer
+            );
         }
     }
 
@@ -174,13 +176,15 @@ class Application {
     public function destroyCastle($params)
     {
         $userId = $this->user->getUser($params['token']);
-        if ($userId) {
-            $enemyCastle=$this->game->getEnemyCastle($params['castle']);
+        if ($userId && $params['castle']) {
+            $castle=$this->game->getCastle($params['castle']);
+            $unitsInCastle = $this->gamer->getUnitsinCastle($params['castle']);
             $gamer = $this->gamer->getGamer($userId);
-            if ($gamer && $castle) {
+            if ($gamer && $castle && !$unitsInCastle) {
                 return $this->gamer->destroyCastle($gamer, $castle);
             }
         }
+    }
 
     public function updateUnits($params) {
         $userId = $this->user->getUser($params['token']);
