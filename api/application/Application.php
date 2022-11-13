@@ -184,7 +184,8 @@ class Application {
                 if ($time) {
                     $this->game->updateMap($time);
                 }
-                return true;
+                //return true;
+                return $time;
             }
         }
     }

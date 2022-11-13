@@ -86,7 +86,7 @@
 
         public function updateUnits($unitsStr) {
             // foreach unit
-            // $this->db->updateUnit($unitId, $prop, $value);
+            // $this->db->updateUnit($unitId, $hp, $posX, $posY, $status, $direction);
             // }
 
             $this->db->setUnitsHash(md5(rand()));
@@ -96,15 +96,5 @@
                 $this->db->setMapTimeStamp($time);
                 return $time;
             }
-        }
-
-        public function healUnit($unitId){
-            // #53 Miro
-            // $this->db->updateUnit($unitId, $prop, 100);
-        }
-
-        public function damageUnit($unitId){
-            // #54 Miro
-            // $this->db->updateUnit(...);
         }
     }
