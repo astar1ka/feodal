@@ -19,7 +19,7 @@
                 case 3: $name="Разгромки"; break;
                 case 4: $name="Удалёнки"; break;
             }
-            $this->db->createVillage($subname . $name, $posX, $posY);
+            $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
         public function getMap() {
