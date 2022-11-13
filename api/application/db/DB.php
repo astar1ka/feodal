@@ -265,6 +265,16 @@ class DB {
         return $this->getArray($query);
     }
 
+    // По id отдельного юнита меняет у него 
+    // hp, posX, posY, status, direction в БД
+    public function updateUnit($unitId, $hp, $posX, $posY, $status, $direction){
+        $query = '
+            UPDATE units
+            SET hp='. $hp. ',posX='. $posX. ',posY='. $posY. ',status='. $status. ',direction='. $direction. '
+            WHERE id=' .$unitId;
+        $this->db->query($query);
+        return $query;
+    }
 
     ////////////////////////////////////////
     //////////////forGamers/////////////////

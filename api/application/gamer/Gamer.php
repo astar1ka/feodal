@@ -84,8 +84,11 @@
             return $this->db->getGamer($user);
         }
 
-        public function updateUnits($gamerId, $unitsStr) {
-            // $this->db->updateUnits($gamerId, $unitsStr);
+        public function updateUnits($unitsStr) {
+            // foreach unit
+            // $this->db->updateUnit($unitId, $hp, $posX, $posY, $status, $direction);
+            // }
+            
             $this->db->setUnitsHash(md5(rand()));
             $statuses = $this->db->getStatuses();
             $time = microtime();
