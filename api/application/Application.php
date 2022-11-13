@@ -171,9 +171,16 @@ class Application {
         }
     }
 
-    public function destroyCastle($params){
-        
-    }
+    public function destroyCastle($params)
+    {
+        $userId = $this->user->getUser($params['token']);
+        if ($userId) {
+            $enemyCastle=$this->game->getEnemyCastle($params['castle']);
+            $gamer = $this->gamer->getGamer($userId);
+            if ($gamer && $castle) {
+                return $this->gamer->destroyCastle($gamer, $castle);
+            }
+        }
 
     public function updateUnits($params) {
         $userId = $this->user->getUser($params['token']);

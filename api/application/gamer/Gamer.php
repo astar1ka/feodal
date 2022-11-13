@@ -20,26 +20,25 @@
             );
         }
 
-        public function addCastle($user) {
+        public function addCastle($userId) {
             $castleX = rand(0,160000) / 1000;
             $castleY = rand(0,160000) / 1000;
-            $this->db->addCastle($user, $castleX, $castleY);
+            $this->db->addCastle($userId, $castleX, $castleY);
             $hash = md5(rand());
             $this->db->setMapHash($hash);
             return true;
         }
 
         public function upgradeCastle($gamer) {
-            $castle = $this->db->getCastle($gamer);
-            if ($castle->Level<5) {
-                $cost = $this->getCastleLevelCost($castle->castleLevel);
-                if ($this->db->getMoney($gamer)>=$cost) {
-                    $this->db->castleLevelUp($castle->id);
-                    $this->db->updateMoney($gamer, -$cost);
+            if ($gamer->castleLevel < 5) {
+                $cost = $this->getCastleLevelCost($gamer->castleLevel);
+                if ($gamer->money >= $cost) {
+                    $this->db->castleLevelUp($gamer->id);
+                    $this->db->updateMoney($gamer->id, -$cost);
                     $hash = md5(rand());
                     $this->db->setMapHash($hash);
                     return array (
-                        'money'=>$this->db->getMoney($gamer)
+                        'money'=>$this->db->getMoney($gamer->id)
                     );
                 }
             }
@@ -47,7 +46,7 @@
 
         public function buyUnit($gamer, $unitType) {
             $unitTypeData = $this->db->getUnitTypeData($unitType);
-            if ($gamer->money>=$unitTypeData->cost) {
+            if ($gamer->money >= $unitTypeData->cost) {
                 $this->db->addUnit($gamer->id, $unitType, $unitTypeData->hp, $gamer->castleX, $gamer->castleY);
                 $this->db->updateMoney($gamer->id, -$unitTypeData->cost);
                 $hash = md5(rand());
@@ -64,27 +63,36 @@
                 return $this->destroyVillage($gamer, $village);
             }
             $this->db->robVillage($village->id, $lootedMoney);
-            $this->db->updateMoney($gamer, $lootedMoney);
+            $this->db->updateMoney($gamer->id, $lootedMoney);
             $hash = md5(rand());
             $this->db->setMapHash($hash);
             return array (
-                'money'=>$this->db->getMoney($gamer)
+                'money'=>$this->db->getMoney($gamer->id)
             );
         }
 
         public function destroyVillage($gamer,$village) {
             $this->db->destroyVillage($village->id);
-            $this->db->updateMoney($gamer, $village->money);
+            $this->db->updateMoney($gamer->id, $village->money);
             return array (
-                'money'=>$this->db->getMoney($gamer)
+                'money'=>$this->db->getMoney($gamer->id)
             );
         }
 
-        public function getGamer($user) {
-            return $this->db->getGamer($user);
+        public function destroyCastle($gamer,$castle){
+            $this->db->destroyCastle($castle->id);
+            $this->db->updateMoney($gamer->id, $castle->money);
+            return array(
+                'money'=>$this->db->getMoney($gamer->id),
+            );
+
         }
 
-        public function updateUnits($unitsStr) {
+        public function getGamer($userId) {
+            return $this->db->getGamer($userId);
+        }
+
+        public function updateUnits($gamer,$unitsStr) {
             // foreach unit
             // $this->db->updateUnit($unitId, $hp, $posX, $posY, $status, $direction);
             // }
