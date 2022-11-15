@@ -5,6 +5,7 @@ require("db/DB.php");
 require("chat/Chat.php");
 require("game/Game.php");
 require("gamer/Gamer.php");
+require("map/Map.php");
 
 class Application
 {
