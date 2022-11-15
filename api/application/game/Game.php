@@ -23,11 +23,11 @@
             $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
-        /*public function getMap() { Перевод строки в объект
-            return array (
-                'map' => $this->db->getMap()
-            );
-        }*/
+        public function getMap() { 
+            $array=$this->map->getMap();
+            return (object)$array;
+        
+        }
 
         public function getUnitsTypes() {
             return $this->db->getUnitsTypes();
