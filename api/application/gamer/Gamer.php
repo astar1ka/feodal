@@ -98,11 +98,10 @@
             // foreach unit
             // $this->db->updateUnit($unitId, $hp, $posX, $posY, $status, $direction);
             // }
-            
             $this->db->setUnitsHash(md5(rand()));
             $statuses = $this->db->getStatuses();
-            $time = microtime();
-            if ($time - $statuses->mapTimeStamp >= 300) {
+            $time = microtime(true);
+            if ($time - $statuses->mapTimeStamp >= 0.3) {
                 $this->db->setMapTimeStamp($time);
                 return $time;
             }

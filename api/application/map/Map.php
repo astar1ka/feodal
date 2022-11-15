@@ -21,6 +21,8 @@ class Map{
 
     public function validPosObject($mapId, $posX, $poxY, $type){
         $map = $this->getMap($mapId);
+        $posX = (int)$posX;
+        $posY = (int)$posY;
         return true;
     }
 

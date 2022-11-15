@@ -162,11 +162,13 @@ class Application
 
     public function buyUnit($params)
     {
-        $user = $this->user->getUser($params['token']);
-        if ($user) {
-            $gamer = $this->gamer->getGamer($user);
-            if ($gamer) {
-                return $this->gamer->buyUnit($gamer, $params['unitType']);
+        if ($params['unitType']){
+            $user = $this->user->getUser($params['token']);
+            if ($user) {
+                $gamer = $this->gamer->getGamer($user);
+                if ($gamer) {
+                    return $this->gamer->buyUnit($gamer, $params['unitType']);
+                }
             }
         }
     }
@@ -214,9 +216,9 @@ class Application
         if ($userId) {
             $gamer = $this->gamer->getGamer($userId);
             if ($gamer) {
-                $time = $this->gamer->updateUnits($params['units']);
+                $time = $this->gamer->updateUnits($gamer, $params['units']);
                 if ($time) {
-                    $this->game->updateMap($time);
+                    return $this->game->updateMap($time);
                 }
                 return true;
             }

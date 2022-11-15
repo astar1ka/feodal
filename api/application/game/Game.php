@@ -76,22 +76,20 @@
             // обновить все деревни
             $villages = $this->db->getVillages();
             foreach ($villages as $village) {
-            if ($time - $village->lastUpdate >= 1000 * 60 * 5) {
-            $id= $village->id;
-            // посчитать новую популяцию
-            $population = $village->population + rand(1, 1+round($village->population/10,0,PHP_ROUND_HALF_EVEN));
-            // посчитать новые деньги
-            $money = $village->money + rand(1,$village->level*(1+round($village->population/10,0,PHP_ROUND_HALF_EVEN)));
-            // увеличить уровень если чо
-            $cost = 300*$village->level + $village->level*$village->level*200;
-            if ($village->money >= $cost && $village->level <5 ){
-            
-            $level =$village->level +1;
-            $money = $village->money - $cost;
-            
-            } else{$level= $village->level;}
+                if ((float)$time>=(float)$village->nextUpdateTime) {
+                    $id= $village->id;
+                    // посчитать новую популяцию
+                    $population = $village->population + rand(1, 1+round($village->population/10,0,PHP_ROUND_HALF_EVEN));
+                    // посчитать новые деньги
+                    $money = $village->money + rand(1,$village->level*(1+round($village->population/10,0,PHP_ROUND_HALF_EVEN)));
+                    // увеличить уровень если чо
+                    $cost = 300*$village->level + $village->level*$village->level*200;
+                    if ($village->money >= $cost && $village->level <5 ){
+                        $level =$village->level +1;
+                        $money = $village->money - $cost;
+                    } else{$level= $village->level;};
             // записать в БД
-            $this->db->updateVillage($id,$money,$level,$population,$time);
+            $this->db->updateVillage($id,$money,$level,$population,$time+rand(300,400-10*$village->level));
             $this->db->setMapHash(md5(rand()));
             }
             }

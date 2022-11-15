@@ -213,7 +213,7 @@ class DB {
         $query = 'UPDATE villages SET money ='. $money .
             ', level ='. $level .
             ', population ='. $population .
-            ', updateTime ='. $time . ' WHERE id ='. $id;
+            ', nextUpdateTime ='. $time . ' WHERE id ='. $id;
         $this -> db -> query($query);
         return true;
     }
