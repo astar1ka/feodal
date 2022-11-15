@@ -7,8 +7,9 @@ class Map{
         $this->test = "test";
     }
 
-    private function getMap($mapId) {
-        $map = $this->db->getMap($mapId);
+    public function getMap($mapId) {
+        $map = $this->db->getMap();
+        
     }
 
     public function validPosObject($mapId, $posX, $poxY, $type){

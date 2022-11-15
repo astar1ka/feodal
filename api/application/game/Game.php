@@ -24,7 +24,7 @@
         }
 
         public function getMap() { 
-            return $this->map->getMap();     
+            return $this->db->getMap(1);     
         }
 
         public function getUnitsTypes() {
