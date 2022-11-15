@@ -18,11 +18,9 @@ data:
 
         {
 
-            "layer1": "[x,x,x,x]",
-
-            "layer2": "[x,x,x,x]",
-
-            "layer3": "[x,x,x,x]"
+            "ground": [x,x,x,x],
+            "plants": [x,x,x,x],
+            "trees": [x,x,x,x]
 
         }
 
@@ -72,7 +70,8 @@ data:
                     "population":"XXX",
                     "posX":"xx.xxx",
                     "posY":"xx.xxx",
-                    "money":"XXX"
+                    "money":"XXX",
+                    "nextUpdateTime": "xxx.xxx"
                 },
             ...
             ],
