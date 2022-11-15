@@ -1,7 +1,8 @@
 <?php
     class Gamer {
-        function __construct($db) {
+        function __construct($db,$map) {
             $this->db = $db;
+            $this->map=$map;
         }
 
         private function getCastleLevelCost($level) {
@@ -12,8 +13,14 @@
             $castleX = rand(0,160000) / 1000;
             $castleY = rand(0,160000) / 1000;
             $this->db->addCastle($userId, $castleX, $castleY);
+
+            $gamer = $this->db->getGamer($userId);
+            $unitTypeData = $this->db->getUnitTypeData(1);
+            $this->db->addUnit($gamer->id, 1, $unitTypeData->hp, $gamer->posX, $gamer->posY);
+
             $hash = md5(rand());
             $this->db->setMapHash($hash);
+            $this->db->setUnitsHash($hash);
             return true;
         }
 
