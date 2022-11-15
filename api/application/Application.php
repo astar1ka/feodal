@@ -212,15 +212,17 @@ class Application
 
     public function updateUnits($params)
     {
-        $userId = $this->user->getUser($params['token']);
-        if ($userId) {
-            $gamer = $this->gamer->getGamer($userId);
-            if ($gamer) {
-                $time = $this->gamer->updateUnits($gamer, $params['units']);
-                if ($time) {
-                    return $this->game->updateMap($time);
+        if ($params['units']) {
+            $userId = $this->user->getUser($params['token']);
+            if ($userId) {
+                $gamer = $this->gamer->getGamer($userId);
+                if ($gamer) {
+                    $time = $this->gamer->updateUnits($gamer, $params['units']);
+                    if ($time) {
+                        $this->game->updateMap($time);
+                    }
+                    return true;
                 }
-                return true;
             }
         }
     }
