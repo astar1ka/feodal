@@ -113,7 +113,7 @@ class DB {
     ////////////////////////////////////////
     public function getMap() {
         $query = '
-                SELECT layer1, layer2, layer3
+                SELECT *
                 FROM Maps
             ';
         return $this->getArray($query);

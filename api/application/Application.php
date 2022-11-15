@@ -13,12 +13,11 @@ class Application
     {
         $config = json_decode(file_get_contents('./config/config.json'), true);
         $db = new DB($config["DataBase"]);
-        $map = new Map();
+        $map = new Map($db);
         $this->user = new User($db);
         $this->chat = new Chat($db);
         $this->game = new Game($db, $map);
         $this->gamer = new Gamer($db, $map);
-        $this->map = new Map($db);
     }
 
     //функция проверки полученных значений в запросе

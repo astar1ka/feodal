@@ -24,9 +24,7 @@
         }
 
         public function getMap() { 
-            $array=$this->map->getMap();
-            return (object)$array;
-        
+            return $this->map->getMap();     
         }
 
         public function getUnitsTypes() {
@@ -72,30 +70,28 @@
             // обновить все деревни
             $villages = $this->db->getVillages();
             foreach ($villages as $village) {
-                if ($time - $village->lastUpdate >= 1000 * 60 * 5) {
-                    // посчитать новую популяцию
-                    // посчитать новые деньги
-                    // увеличить уровень если чо
-                    // записать в БД
-                    $this->db->setMapHash(md5(rand()));
-                }
+            if ($time - $village->lastUpdate >= 1000 * 60 * 5) {
+            $id= $village->id;
+            // посчитать новую популяцию
+            $population = $village->population + rand(1, 1+round($village->population/10,0,PHP_ROUND_HALF_EVEN));
+            // посчитать новые деньги
+            $money = $village->money + rand(1,$village->level*(1+round($village->population/10,0,PHP_ROUND_HALF_EVEN)));
+            // увеличить уровень если чо
+            $cost = 300*$village->level + $village->level*$village->level*200;
+            if ($village->money >= $cost && $village->level <5 ){
+            
+            $level =$village->level +1;
+            $money = $village->money - $cost;
+            
+            } else{$level= $village->level;}
+            // записать в БД
+            $this->db->updateVillage($id,$money,$level,$population,$time);
+            $this->db->setMapHash(md5(rand()));
             }
-
+            }
+            
             // обновить все замки
             //...
-
-            /*$timeDB = $this->db->getMapTimeStamp();
-            $time = time();
-            if ($time>=$timeDB) {
-                $this->db->setMapTimeStamp($time+300);
-                $this->db->updateVillagePopulations();
-                $this->db->updateVillagesMoney();
-                if (count($this->db->getVillages())<10){
-                    $this->addVillage();
-                }
-                $this->db->updateVillagesLevel();
-                $hash = md5(rand());
-                $this->db->setMapHash($hash);
-            }*/
-        }
+            
+            }
     }
