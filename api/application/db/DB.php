@@ -209,7 +209,18 @@ class DB {
         return $this->getArray($query);
     }
 
-    public function updateVillagesLevel() {
+    public function updateVillage($id, $money, $level, $population, $time){
+        $query = 'UPDATE villages SET money ='. $money .
+            ', level ='. $level .
+            ', population ='. $population .
+            ', updateTime ='. $time . ' WHERE id ='. $id;
+        $this -> db -> query($query);
+        return true;
+    }
+
+
+    // Пока не стали удалять
+    /*public function updateVillagesLevel() {
         $query = 'UPDATE villages 
                 SET money = money - 300*level-level*level*200,
                 level=level + 1
@@ -225,8 +236,11 @@ class DB {
         return true;
     }
 
-    public function updateVillagePopulations() {
-        $query = 'UPDATE villages SET population = population + 1';
+    */
+    public function updateVillagePopulations($id,$population){
+        $query = 'UPDATE villages SET population ='. $population . ' WHERE id ='.  $id;
+        $this -> db -> query($query);
+        return true;
     }
 
     public function robVillage($id, $money) {

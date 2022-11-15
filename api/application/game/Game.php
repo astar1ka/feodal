@@ -1,7 +1,8 @@
 <?php
     class Game {
-        function __construct($db) {
+        function __construct($db,$map) {
             $this->db = $db;
+            $this->map = $map;
         }
 
         public function addVillage(){
@@ -22,11 +23,11 @@
             $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
-        public function getMap() {
+        /*public function getMap() { Перевод строки в объект
             return array (
                 'map' => $this->db->getMap()
             );
-        }
+        }*/
 
         public function getUnitsTypes() {
             return $this->db->getUnitsTypes();
