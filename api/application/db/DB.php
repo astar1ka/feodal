@@ -111,12 +111,12 @@ class DB {
     ////////////////////////////////////////
     //////////////forMap////////////////////
     ////////////////////////////////////////
-    public function getMap() {
+    public function getMap($id) {
         $query = '
-                SELECT layer1,layer2,layer3
+                SELECT ground,plants,trees
                 FROM Maps
-            ';
-        return $this->getArray($query);
+                WHERE id='.$id;
+        return $this->db->query($query)->fetchObject();
     }
 
     public function getUnitsTypes() {

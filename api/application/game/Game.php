@@ -23,8 +23,14 @@
             $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
-        public function getMap() { 
-            return $this->db->getMap(1);     
+        public function getMap() {
+            $map = $this->db->getMap(1);
+            return array(
+                'map'=>array(
+                    'ground'=>json_decode($map->ground),
+                    'plants'=>json_decode($map->plants),
+                    'trees'=>json_decode($map->trees)
+                ));
         }
 
         public function getUnitsTypes() {
