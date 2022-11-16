@@ -16,7 +16,7 @@ class Application
         $map = new Map($db);
         $this->user = new User($db);
         $this->chat = new Chat($db);
-        $this->game = new Game($db, $map);
+        $this->game = new Game($db, $map,$config["Game"]);
         $this->gamer = new Gamer($db, $map);
     }
 

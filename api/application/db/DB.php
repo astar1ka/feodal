@@ -132,10 +132,10 @@ class DB {
     //////////////forCastles////////////////
     ////////////////////////////////////////
 
-    public function addCastle($user, $castleX, $castleY) {
+    public function addCastle($user, $castleX, $castleY, $time) {
         $query = '
-                INSERT INTO gamers (userId, castleX, castleY) 
-                VALUES (' . $user . ', ' . $castleX . ',' . $castleY . ')
+                INSERT INTO gamers (userId, castleX, castleY, lastRentTime) 
+                VALUES (' . $user . ', ' . $castleX . ',' . $castleY . ','.$time.')
             ';
         $this->db->query($query);
         return true;
@@ -292,6 +292,11 @@ class DB {
         return $this->getArray($query);
     }
 
+    public function countUnitsGamer($gamerId){
+        $query ='SELECT count(*) FROM units WHERE gamerId='.$gamerId;
+        return $this->db->query($query)->fetchObject();
+
+    }
     // По id отдельного юнита меняет у него 
     // hp, posX, posY, status, direction в БД
     public function updateUnit($unitId, $hp, $posX, $posY, $status, $direction){
