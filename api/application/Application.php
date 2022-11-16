@@ -21,8 +21,8 @@ class Application
     }
 
     //функция проверки полученных значений в запросе
-    function validQuery($value, $type)
-    {
+    function checkParams($params){
+        return true;
     }
 
 
