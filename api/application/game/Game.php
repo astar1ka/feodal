@@ -1,8 +1,9 @@
 <?php
     class Game {
-        function __construct($db,$map) {
+        function __construct($db,$map, $config) {
             $this->db = $db;
             $this->map = $map;
+            $this->config=$config;
         }
 
         public function addVillage(){
@@ -89,13 +90,25 @@
                         $money = $village->money - $cost;
                     } else{$level= $village->level;};
             // записать в БД
-            $this->db->updateVillage($id,$money,$level,$population,$time+rand(300,400-10*$village->level));
+            $this->db->updateVillage($id,$money,$level,$population,$time+rand(60*$this->config->intervalUpdateVillage,60*$this->config->intervalUpdateVillage+100-10*$village->level));
             $this->db->setMapHash(md5(rand()));
             }
             }
             
             // обновить все замки
             //...
-            
+            $castles = $this->db->getCastles();
+            foreach ($castles as $castle){
+                if($time - $castle->lastRent>=60*$this->config->intervalRentMinutes){
+                    $rent= $this->db->getUnitsTypes()->rent * $this->db->countUnitsGamer($castle->id);
+                    $gamer= $this->db->$castle->id;
+                    $this->db->updateMoney($gamer,-$rent);
+                    if($castle->money-$rent<=0) {
+                        $this->db->destroyCastle($gamer);
+                    }
+                    $this->db->setMapHash(md5(rand()));
+                }
+            }
+
             }
     }

@@ -16,7 +16,7 @@
 
             $gamer = $this->db->getGamer($userId);
             $unitTypeData = $this->db->getUnitTypeData(1);
-            $this->db->addUnit($gamer->id, 1, $unitTypeData->hp, $gamer->posX, $gamer->posY);
+            $this->db->addUnit($gamer->id, 1, $unitTypeData->hp, $gamer->posX, $gamer->posY, microtime(true));
 
             $hash = md5(rand());
             $this->db->setMapHash($hash);
