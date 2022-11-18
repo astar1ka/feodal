@@ -111,12 +111,13 @@ class Gamer
     public function damageVillages($id, $population){
         $villages = $this->db->getVillages();
         $dbPopulation = $this->db->getVillages($villages->population);
-        foreach ($villages as $villages) {
-            $this->db->updateVillage($id, $villages->population);
+        foreach ($villages as $village) {
+            $population=$this->db->updateVillage($id, $village->population);
+            if ($dbPopulation < $population) {
+                return false;
+            }
+            return $population;
         }
-        if ($dbPopulation < $population) {
-            return false;
-        }
-        return $population;
+        
     }
 }
