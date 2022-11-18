@@ -259,6 +259,11 @@ class DB {
     ////////////////////////////////////////
     //////////////forUnits//////////////////
     ////////////////////////////////////////
+    public function updateUnitHP($hp,$gamerId){
+        $query='UPDATE units SET
+            hp= '.$hp . 'WHERE gamerId='. $gamerId;
+        return true;
+    }
 
     public function addUnit($gamer, $unit, $hp, $posX, $posY) {
         $query = '

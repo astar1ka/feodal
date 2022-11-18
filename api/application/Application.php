@@ -7,10 +7,8 @@ require("game/Game.php");
 require("gamer/Gamer.php");
 require("map/Map.php");
 
-class Application
-{
-    function __construct()
-    {
+class Applicatio{
+    function __construct(){
         $config = json_decode(file_get_contents('./config/config.json'), true);
         $db = new DB($config["DataBase"]);
         $map = new Map($db);
@@ -30,15 +28,13 @@ class Application
     //////////////forUser///////////////////
     ////////////////////////////////////////
 
-    public function login($params)
-    {
+    public function login($params){
         if ($params['login'] && $params['password']) {
             return $this->user->login($params['login'], $params['password']);
         }
     }
 
-    public function registration($params)
-    {
+    public function registration($params){
         [
             'login' => $login,
             'password' => $password,
@@ -49,8 +45,7 @@ class Application
         }
     }
 
-    public function logout($params)
-    {
+    public function logout($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             return $this->user->logout($user);
@@ -61,8 +56,7 @@ class Application
     //////////////forChat///////////////////
     ////////////////////////////////////////
 
-    public function sendMessage($params, $type)
-    {
+    public function sendMessage($params, $type){
         [
             'token' => $token,
             'message' => $message,
@@ -77,8 +71,7 @@ class Application
         }
     }
 
-    public function getMessages($params)
-    {
+    public function getMessages($params){
         if ($params['hash']) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
@@ -87,8 +80,7 @@ class Application
         }
     }
 
-    public function getLoggedUsers($params)
-    {
+    public function getLoggedUsers($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             return $this->chat->getLoggedUsers();
@@ -100,31 +92,27 @@ class Application
     ////////////////////////////////////////
 
 
-    public function getMap($params)
-    {
+    public function getMap($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             return $this->game->getMap();
         }
     }
 
-    public function getUnitsTypes($params)
-    {
+    public function getUnitsTypes($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             return $this->game->getUnitsTypes();
         }
     }
 
-    public function getScene($params)
-    {
+    public function getScene($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             return $this->game->getScene($params['unitsHash'], $params['mapHash']);
         }
     }
-    public function updateMap()
-    {
+    public function updateMap(){
         $this->game->updateMap();
     }
 
@@ -134,8 +122,7 @@ class Application
 
 
 
-    public function getCastle($params)
-    {
+    public function getCastle($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
@@ -149,8 +136,7 @@ class Application
         }
     }
 
-    public function upgradeCastle($params)
-    {
+    public function upgradeCastle($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
@@ -160,8 +146,7 @@ class Application
         }
     }
 
-    public function buyUnit($params)
-    {
+    public function buyUnit($params){
         if ($params['unitType']){
             $user = $this->user->getUser($params['token']);
             if ($user) {
@@ -173,8 +158,7 @@ class Application
         }
     }
 
-    public function robVillage($params)
-    {
+    public function robVillage($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
@@ -185,8 +169,7 @@ class Application
         }
     }
 
-    public function destroyVillage($params)
-    {
+    public function destroyVillage($params){
         $user = $this->user->getUser($params['token']);
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
@@ -197,8 +180,18 @@ class Application
         }
     }
 
-    public function destroyCastle($params)
-    {
+    public function damageVillages($params){
+        $user=$this->user->getUser($params['token']);
+        if($user){
+            $gamer=$this->gamer->getGamer($user);
+            $villages=$this->game->getVillages($params['villages']);
+            if($gamer && $villages){
+                return $this->gamer->damageVillages($gamer,$villages);
+            }
+        }
+    }
+
+    public function destroyCastle($params){
         $userId = $this->user->getUser($params['token']);
         if ($userId && $params['castle']) {
             $castle = $this->game->getCastle($params['castle']);
@@ -210,8 +203,7 @@ class Application
         }
     }
 
-    public function updateUnits($params)
-    {
+    public function updateUnits($params){
         if ($params['units']) {
             $userId = $this->user->getUser($params['token']);
             if ($userId) {
