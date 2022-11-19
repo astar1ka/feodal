@@ -42,9 +42,9 @@
             return $this->db->getVillage($villageId);
         }
 
-        public function getCastle($castleId) {
-            if ($castleId) {
-                return $this->db->getCastle($castleId);
+        public function getCastle($userId) {
+            if ($userId) {
+                return $this->db->getCastle($userId);
             }
         }
 

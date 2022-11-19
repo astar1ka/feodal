@@ -141,8 +141,8 @@ class DB {
         return true;
     }
 
-    public function getCastle($id) {
-        $query = 'SELECT id, castleX as posX, castleY as posY, money FROM gamers WHERE id='.$id;
+    public function getCastle($userId) {
+        $query = 'SELECT id, userId, color, level, posX, posY FROM castles WHERE userId='.$userId;
         return $this->db->query($query)->fetchObject();
     }
 
@@ -313,7 +313,7 @@ class DB {
     ////////////////////////////////////////
     public function getGamer($user) {
         $query = '
-            SELECT id, castleLevel as level, castleX as posX, castleY as posY, money
+            SELECT id, userId, money, nextRentTime
             FROM gamers 
             WHERE userId=' . $user;
         return $this->db->query($query)->fetchObject();

@@ -144,7 +144,7 @@ class Application
                 $gamer = $this->gamer->getGamer($user);
             }
             return array(
-                'castle' => $gamer
+                'castle' => $this->game->getCastle($gamer->userId)
             );
         }
     }
