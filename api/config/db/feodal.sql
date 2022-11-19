@@ -24,6 +24,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `castles`
+--
+
+CREATE TABLE `castles` (
+  `id` int(128) NOT NULL,
+  `userId` int(128) NOT NULL,
+  `color` varchar(64) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `level` int(64) NOT NULL,
+  `posX` int(64) NOT NULL,
+  `posY` int(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+-- Дамп данных таблицы `castles`
+-- --------------------------------------------------------
+
+INSERT INTO `castles` (`id`, `userId`, `color`, `level`, `posX`, `posY`) VALUES
+(5, 2, 'red', 4, 40.411, 1.687),
+(8, 1, 'blue', 1, 71.609, 56.837);
+
+
+--
 -- Структура таблицы `gamers`
 --
 
@@ -31,10 +53,6 @@ CREATE TABLE `gamers` (
   `id` int NOT NULL,
   `userId` int NOT NULL,
   `money` int NOT NULL DEFAULT '1000',
-  `castleColor` varchar(64) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `castleLevel` int NOT NULL DEFAULT '1',
-  `castleX` double NOT NULL,
-  `castleY` double NOT NULL,
   `nextRentTime` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -42,9 +60,9 @@ CREATE TABLE `gamers` (
 -- Дамп данных таблицы `gamers`
 --
 
-INSERT INTO `gamers` (`id`, `userId`, `money`, `castleColor`, `castleLevel`, `castleX`, `castleY`, `nextRentTime`) VALUES
-(5, 2, 3361, '#f58142', 4, 40.411, 1.687, ''),
-(8, 1, 500, '#1ec94f', 1, 71.609, 56.837, '');
+INSERT INTO `gamers` (`id`, `userId`, `money`, `nextRentTime`) VALUES
+(5, 2, 3361, ''),
+(8, 1, 500, '');
 
 -- --------------------------------------------------------
 
