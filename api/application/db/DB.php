@@ -181,9 +181,9 @@ class DB {
     }
 
 
-    public function destroyCastle($id) {
-        $query = 'DELETE FROM gamers
-        WHERE id=' . $id;
+    public function destroyCastle($userId) {
+        $query = 'DELETE FROM castles
+        WHERE userId=' . $userId;
         $this->db->query($query);
         return true;
     }
@@ -275,11 +275,11 @@ class DB {
         return $this->db->query($query)->fetchObject();
     }
 
-    public function getUnitsInCastle($castleId){
+    public function getUnitsInCastle($gamerId){
         $query = '
         SELECT id, type, hp, posX, posY, status, direction 
         FROM units
-        WHERE status="inCastle" and gamerId='.$castleId;
+        WHERE status="inCastle" and gamerId='.$gamerId;
     return $this->getArray($query);
     }
 

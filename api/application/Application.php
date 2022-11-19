@@ -203,12 +203,12 @@ class Application
     public function destroyCastle($params)
     {
         $userId = $this->user->getUser($params['token']);
-        if ($userId && $params['castle']) {
-            $castle = $this->game->getCastle($params['castle']);
-            $unitsInCastle = $this->gamer->getUnitsinCastle($params['castle']);
+        if ($userId) {
             $gamer = $this->gamer->getGamer($userId);
-            if ($gamer && $castle && !$unitsInCastle) {
-                return $this->gamer->destroyCastle($gamer, $castle);
+            $unitsInCastle = $this->gamer->getUnitsinCastle($gamer->id);
+
+            if($gamer && !$unitsInCastle){
+                return $this->game->destroyCastle($gamer, $userId);
             }
         }
     }
