@@ -131,20 +131,19 @@ class DB {
     ////////////////////////////////////////
     //////////////forCastles////////////////
     ////////////////////////////////////////
-
-    public function addCastle($user, $castleX, $castleY, $time) {
+    public function addCastle($userId, $color, $level, $posX, $posY) {
         $query = '
-                INSERT INTO gamers (userId, castleX, castleY, lastRentTime) 
-                VALUES (' . $user . ', ' . $castleX . ',' . $castleY . ','.$time.')
-            ';
+                INSERT INTO castles (userId, color, level, posX, posY) 
+                VALUES (' . $userId . ', "' . $color . '", ' . $level . ',' . $posX . ',' . $posY. ')';
         $this->db->query($query);
         return true;
     }
 
-    public function getCastle($id) {
-        $query = 'SELECT id, castleX as posX, castleY as posY, money FROM gamers WHERE id='.$id;
+    public function getCastle($userId) {
+        $query = 'SELECT id, userId, color, level, posX, posY FROM castles WHERE userId='.$userId;
         return $this->db->query($query)->fetchObject();
     }
+    
 
     public function getCastles() {
         $query = '
@@ -182,9 +181,9 @@ class DB {
     }
 
 
-    public function destroyCastle($id) {
-        $query = 'DELETE FROM gamers
-        WHERE id=' . $id;
+    public function destroyCastle($userId) {
+        $query = 'DELETE FROM castles
+        WHERE userId=' . $userId;
         $this->db->query($query);
         return true;
     }
@@ -260,10 +259,10 @@ class DB {
     //////////////forUnits//////////////////
     ////////////////////////////////////////
 
-    public function addUnit($gamer, $unit, $hp, $posX, $posY) {
+    public function addUnit($gamerId, $unitType, $hp, $posX, $posY) {
         $query = '
             INSERT INTO units (gamerId, type, hp, posX, posY) 
-            VALUES ('.$gamer.', '.$unit.', '.$hp.', '.$posX.', '.$posY.')';
+            VALUES ('.$gamerId.', '.$unitType.', '.$hp.', '.$posX.', '.$posY.')';
         $this->db->query($query);
         return true;
     }
@@ -276,11 +275,11 @@ class DB {
         return $this->db->query($query)->fetchObject();
     }
 
-    public function getUnitsInCastle($castleId){
+    public function getUnitsInCastle($gamerId){
         $query = '
         SELECT id, type, hp, posX, posY, status, direction 
         FROM units
-        WHERE status="inCastle" and gamerId='.$castleId;
+        WHERE status="inCastle" and gamerId='.$gamerId;
     return $this->getArray($query);
     }
 
@@ -311,12 +310,21 @@ class DB {
     ////////////////////////////////////////
     //////////////forGamers/////////////////
     ////////////////////////////////////////
-    public function getGamer($user) {
+    public function addGamer($userId, $money, $nextRentTime) {
         $query = '
-            SELECT id, castleLevel as level, castleX as posX, castleY as posY, money
+                INSERT INTO gamers (userId, money, nextRentTime) 
+                VALUES (' . $userId . ', ' . $money . ',"' . $nextRentTime .'")
+            ';
+        $this->db->query($query);
+        return true;
+    }
+
+    public function getGamer($userId) {
+        $query = '
+            SELECT id, userId, money, nextRentTime
             FROM gamers 
-            WHERE userId=' . $user;
-        return $this->db->query($query)->fetchObject();
+            WHERE userId=' . $userId;
+        return $this->getArray($query);
     }
 
     /* About statuses */
