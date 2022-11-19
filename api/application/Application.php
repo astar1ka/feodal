@@ -45,6 +45,7 @@ class Application
             'name' => $name
         ] = $params;
         if ($login && $password && $name) {
+
             return $this->user->registration($login, $password, $name);
         }
     }
@@ -136,15 +137,17 @@ class Application
 
     public function getCastle($params)
     {
-        $user = $this->user->getUser($params['token']);
-        if ($user) {
-            $gamer = $this->gamer->getGamer($user);
+        $userId = $this->user->getUser($params['token']);
+        if ($userId) {
+            $gamer = $this->gamer->getGamer($userId);
             if (!$gamer) {
-                $this->gamer->addCastle($user);
-                $gamer = $this->gamer->getGamer($user);
+                $this->gamer->addGamer($userId);
+
+                // add a castle with random HEX color and level '1'
+                $this->game->addCastle($userId, '#'.substr(md5(rand()), 0, 6), 1);
             }
             return array(
-                'castle' => $this->game->getCastle($gamer->userId)
+                'castle' => $this->game->getCastle($userId)
             );
         }
     }

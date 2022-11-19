@@ -24,6 +24,21 @@
             $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
+        public function addCastle($userId, $color, $level) {
+            $posX = rand(0,160000) / 1000;
+            $posY = rand(0,160000) / 1000;            
+            $this->db->addCastle($userId, $color, $level, $posX, $posY);
+            
+            // $castle = $this->db->getCastle($userId);
+            $unitTypeData = $this->db->getUnitTypeData(1);
+            $this->db->addUnit($gamer->id, 1, $unitTypeData->hp, $posX, $posY, microtime(true));
+
+            $hash = md5(rand());
+            $this->db->setMapHash($hash);
+            $this->db->setUnitsHash($hash);
+            return true;
+        }
+
         public function getMap() {
             $map = $this->db->getMap(1);
             return array(
