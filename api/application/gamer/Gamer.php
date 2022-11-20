@@ -16,7 +16,10 @@
             $serverTime = $this->db->getStatuses()->mapTimeStamp;
             $nextRentTime = $serverTime + 7200000000; // = $serverTime + 2часа (в микросекундах)
 
-            $this->db->addCastle($userId, $castleX, $castleY, $nextRentTime);
+            $castleColor = '#' . substr(md5(mt_rand()), 0, 6);
+            $castleLevel = 1;
+
+            $this->db->addCastle($userId, $castleLevel, $castleColor, $castleX, $castleY, $nextRentTime);
 
             $gamer = $this->db->getGamer($userId);
             $unitTypeData = $this->db->getUnitTypeData(1);
