@@ -12,7 +12,11 @@
         public function addCastle($userId) {
             $castleX = rand(0,160000) / 1000;
             $castleY = rand(0,160000) / 1000;
-            $this->db->addCastle($userId, $castleX, $castleY);
+
+            $serverTime = $this->db->getStatuses()->mapTimeStamp;
+            $nextRentTime = $serverTime + 7200000000; // = $serverTime + 2часа (в микросекундах)
+
+            $this->db->addCastle($userId, $castleX, $castleY, $nextRentTime);
 
             $gamer = $this->db->getGamer($userId);
             $unitTypeData = $this->db->getUnitTypeData(1);
