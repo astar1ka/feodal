@@ -56,3 +56,4 @@ function answer($data) {
 }
 
 echo(json_encode(answer(router($_GET))));
+
