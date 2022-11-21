@@ -79,7 +79,7 @@
                     $dbVillage=$this->db->getVillage($village->id);
                     if($village->population<$dbVillage->population){
                         $this->db->updateVillage($village->population);
-                        $this->db->setUnitHash(md5(rand()));
+                        $this->db->setMapHash(md5(rand()));
                     }
                 }
             }
