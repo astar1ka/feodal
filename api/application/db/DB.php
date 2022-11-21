@@ -132,10 +132,10 @@ class DB {
     //////////////forCastles////////////////
     ////////////////////////////////////////
 
-    public function addCastle($userId, $castleLevel, $castleColor, $castleX, $castleY, $nextRentTime) {
+    public function addCastle($userId, $castleColor, $castleX, $castleY, $nextRentTime) {
         $query = '
-                INSERT INTO gamers (userId, castleLevel, castleColor, castleX, castleY, nextRentTime) 
-                VALUES (' . $userId . ', ' . $castleLevel . ', "' . $castleColor . '", ' . $castleX . ',' . $castleY . ',' . $nextRentTime . ')
+                INSERT INTO gamers (userId, castleColor, castleX, castleY, nextRentTime) 
+                VALUES (' . $userId . ', ' . $castleColor . '", ' . $castleX . ',' . $castleY . ',' . $nextRentTime . ')
             ';
         $this->db->query($query);
         return true;
