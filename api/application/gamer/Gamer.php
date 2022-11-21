@@ -12,7 +12,12 @@
         public function addCastle($userId) {
             $castleX = rand(0,160000) / 1000;
             $castleY = rand(0,160000) / 1000;
-            $this->db->addCastle($userId, $castleX, $castleY);
+
+            $nextRentTime = microtime(true) + 7200000;
+
+            $castleColor = '#' . substr(md5(mt_rand()), 0, 6);
+
+            $this->db->addCastle($userId, $castleColor, $castleX, $castleY, $nextRentTime);
 
             $gamer = $this->db->getGamer($userId);
             $unitTypeData = $this->db->getUnitTypeData(1);
