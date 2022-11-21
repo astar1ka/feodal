@@ -13,13 +13,11 @@
             $castleX = rand(0,160000) / 1000;
             $castleY = rand(0,160000) / 1000;
 
-            $serverTime = $this->db->getStatuses()->mapTimeStamp;
-            $nextRentTime = $serverTime + 7200000000; // = $serverTime + 2часа (в микросекундах)
+            $nextRentTime = microtime(true) + 7200000;
 
             $castleColor = '#' . substr(md5(mt_rand()), 0, 6);
-            $castleLevel = 1;
 
-            $this->db->addCastle($userId, $castleLevel, $castleColor, $castleX, $castleY, $nextRentTime);
+            $this->db->addCastle($userId, $castleColor, $castleX, $castleY, $nextRentTime);
 
             $gamer = $this->db->getGamer($userId);
             $unitTypeData = $this->db->getUnitTypeData(1);
