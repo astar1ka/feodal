@@ -307,6 +307,12 @@ class DB {
         $this->db->query($query);
         return $query;
     }
+    public function updateUnitHP($unitId,$hp){
+        $query='UPDATE units
+            SET  hp='. $hp . 'WHERE id='. $unitId;
+        $this->db->query($query);
+        return true;
+    }
 
     ////////////////////////////////////////
     //////////////forGamers/////////////////
