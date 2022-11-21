@@ -72,6 +72,19 @@
             );
         }
 
+        public function damageVillages($villages){
+            $villages=json_decode($villages,false);
+            foreach($villages as $village){
+                if($village){
+                    $dbVillage=$this->db->getVillage($village->id);
+                    if($village->population<$dbVillage->population){
+                        $this->db->updateVillage($village->population);
+                        $this->db->setMapHash(md5(rand()));
+                    }
+                }
+            }
+        }
+
         public function destroyVillage($gamer,$village) {
             $this->db->destroyVillage($village->id);
             $this->db->updateMoney($gamer->id, $village->money);
