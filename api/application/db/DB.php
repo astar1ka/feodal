@@ -292,6 +292,14 @@ class DB {
         return $this->getArray($query);
     }
 
+    public function getOwnerUnit($id,){
+        $query='
+        SELECT gamerId as ownerId
+        FROM units
+        WHERE id='.$id;
+        return $this->db->getOwnerUnit($query);
+    }
+
     public function countUnitsGamer($gamerId){
         $query ='SELECT count(*) FROM units WHERE gamerId='.$gamerId;
         return $this->db->query($query)->fetchObject();
@@ -299,11 +307,11 @@ class DB {
     }
     // По id отдельного юнита меняет у него 
     // hp, posX, posY, status, direction в БД
-    public function updateUnit($unitId, $hp, $posX, $posY, $status, $direction){
+    public function updateUnit($unitId,$gamerId,$hp, $posX, $posY, $status, $direction){
         $query = '
             UPDATE units
             SET hp='. $hp. ',posX='. $posX. ',posY='. $posY. ',status='. $status. ',direction='. $direction. '
-            WHERE id=' .$unitId;
+            WHERE id=' .$unitId. 'AND gamerId=' .$gamerId;
         $this->db->query($query);
         return $query;
     }

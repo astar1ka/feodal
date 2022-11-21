@@ -124,4 +124,14 @@
                 return $time;
             }
         }
+
+        public function updateGamerUnits($gamer,$units){
+            $units=json_decode($units,false);
+            foreach($units as $unit){
+                if($unit){
+                        $this->db->updateUnit($unit->id,$gamer->id,$unit->hp,$unit->posX,$unit->posY,$unit->status,$unit->direction);
+                        $this->db->setUnitsHash(md5(rand()));
+                }
+            }
+        }
     }
