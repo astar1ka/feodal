@@ -313,7 +313,7 @@ class DB {
     ////////////////////////////////////////
     public function getGamer($user) {
         $query = '
-            SELECT id, userId, castleLevel as level, castleColor as color, castleX as posX, castleY as posY, money
+            SELECT id, castleLevel as level, castleColor as color, castleX as posX, castleY as posY, money
             FROM gamers 
             WHERE userId=' . $user;
         return $this->db->query($query)->fetchObject();
