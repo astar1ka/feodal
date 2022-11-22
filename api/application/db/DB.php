@@ -292,14 +292,6 @@ class DB {
         return $this->getArray($query);
     }
 
-    public function getOwnerUnit($id,){
-        $query='
-        SELECT gamerId as ownerId
-        FROM units
-        WHERE id='.$id;
-        return $this->db->getOwnerUnit($query);
-    }
-
     public function countUnitsGamer($gamerId){
         $query ='SELECT count(*) FROM units WHERE gamerId='.$gamerId;
         return $this->db->query($query)->fetchObject();
