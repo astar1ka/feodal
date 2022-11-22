@@ -75,6 +75,7 @@
 
         public function updateMap($time) {
             // обновить все деревни
+            $isUpdated = false;
             $villages = $this->db->getVillages();
             foreach ($villages as $village) {
                 if ((float)$time>=(float)$village->nextUpdateTime) {
@@ -91,24 +92,27 @@
                     } else{$level= $village->level;};
             // записать в БД
             $this->db->updateVillage($id,$money,$level,$population,$time+rand(60*$this->config->intervalUpdateVillage,60*$this->config->intervalUpdateVillage+100-10*$village->level));
-            $this->db->setMapHash(md5(rand()));
+            $isUpdate = true;
             }
             }
             
             // обновить все замки
             //...
-            $castles = $this->db->getCastles();
+            /*$castles = $this->db->getCastles();
             foreach ($castles as $castle){
-                if($time - $castle->lastRent>=60*$this->config->intervalRentMinutes){
+                if((float)$castle->nextRentTime<=(float)$time){
                     $rent= $this->db->getUnitsTypes()->rent * $this->db->countUnitsGamer($castle->id);
-                    $gamer= $this->db->$castle->id;
+                    $gamer= $castle->id;
                     $this->db->updateMoney($gamer,-$rent);
                     if($castle->money-$rent<=0) {
                         $this->db->destroyCastle($gamer);
                     }
-                    $this->db->setMapHash(md5(rand()));
+                    //обновить время следующей ренты
+                    $isUpdate = true;
                 }
+            }*/
+            if ($isUpdate) {
+                $this->db->setMapHash(md5(rand()));
             }
-
-            }
+        }
     }

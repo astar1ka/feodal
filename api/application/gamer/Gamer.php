@@ -77,19 +77,6 @@
             );
         }
 
-        public function damageVillages($villages){
-            $villages=json_decode($villages,false);
-            foreach($villages as $village){
-                if($village){
-                    $dbVillage=$this->db->getVillage($village->id);
-                    if($village->population<$dbVillage->population){
-                        $this->db->updateVillage($village->population);
-                        $this->db->setMapHash(md5(rand()));
-                    }
-                }
-            }
-        }
-
         public function destroyVillage($gamer,$village) {
             $this->db->destroyVillage($village->id);
             $this->db->updateMoney($gamer->id, $village->money);
@@ -112,11 +99,19 @@
             return $this->db->getGamer($userId);
         }
 
-        public function updateUnits($gamer,$unitsStr) {
-            // foreach unit
-            // $this->db->updateUnit($unitId, $hp, $posX, $posY, $status, $direction);
-            // }
-            $this->db->setUnitsHash(md5(rand()));
+        public function updateUnits($gamer,$myUnits,$otherUnits,$villages) {
+            $myUnits=json_decode($myUnits);
+            $otherUnits=json_decode($villages,false);
+            $villages=json_decode($villages,false);
+            if ($myUnits) {
+                $this->updateGamerUnits($gamer,$myUnits);
+            }
+            if ($otherUnits) {
+                //$this->updateOtherUnits($otherUnits);
+            }
+            if ($villages) {
+                $this->damageVillages($villages);
+            }
             $statuses = $this->db->getStatuses();
             $time = microtime(true);
             if ($time - $statuses->mapTimeStamp >= 0.3) {
@@ -125,13 +120,32 @@
             }
         }
 
-        public function updateGamerUnits($gamer,$units){
-            $units=json_decode($units,false);
+        private function updateGamerUnits($gamer,$units){
+            $isUpdate = false;
             foreach($units as $unit){
                 if($unit){
                         $this->db->updateUnit($unit->id,$gamer->id,$unit->hp,$unit->posX,$unit->posY,$unit->status,$unit->direction);
-                        $this->db->setUnitsHash(md5(rand()));
+                        $isUpdate = true;
                 }
+            }
+            if ($isUpdate) {
+                $this->db->setUnitsHash(md5(rand()));
+            }
+        }
+
+        private function damageVillages($villages){
+            $isUpdate = false;
+            foreach($villages as $village){
+                if($village){
+                    $dbVillage=$this->db->getVillage($village->id);
+                    if($village->population<$dbVillage->population){
+                        $this->db->updateVillage($village->population);
+                        $isUpdate = true;
+                    }
+                }
+            }
+            if ($isUpdate){
+                $this->db->setMapHash(md5(rand()));
             }
         }
     }
