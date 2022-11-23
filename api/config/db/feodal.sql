@@ -164,6 +164,7 @@ CREATE TABLE `unitstypes` (
   `hp` int NOT NULL,
   `cost` int NOT NULL,
   `damage` int NOT NULL,
+  `might` int(64) NOT NULL,
   `speed` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPACT;
 
@@ -171,8 +172,8 @@ CREATE TABLE `unitstypes` (
 -- Дамп данных таблицы `unitstypes`
 --
 
-INSERT INTO `unitstypes` (`id`, `name`, `hp`, `cost`, `damage`, `speed`) VALUES
-(1, 'soldier', 10, 100, 1, 0);
+INSERT INTO `unitstypes` (`id`, `name`, `hp`, `cost`, `damage`, `might`, `speed`) VALUES
+(1, 'Воин', 100, 100, 10, 5, 5);
 
 -- --------------------------------------------------------
 
