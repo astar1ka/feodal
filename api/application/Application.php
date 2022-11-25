@@ -212,7 +212,10 @@ class Application {
             if  ($userId){
                 $gamer = $this->gamer->getGamer($userId);
                 if ($gamer) {
-                    $time = $this->gamer->updateUnits($gamer, $params['myUnits'], $params['otherUnits'], $params['villages']);
+                    $myUnits=json_decode($params['myUnits']);
+                    $otherUnits=json_decode($params['otherUnits'],false);
+                    $villages=json_decode($params['villages'],false);
+                    $time = $this->gamer->updateUnits($gamer, $myUnits, $otherUnits, $villages);
                     if ($time) {
                         $this->game->updateMap($time);
                     }

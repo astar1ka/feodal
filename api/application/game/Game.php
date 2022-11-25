@@ -98,10 +98,10 @@
             
             // обновить все замки
             //...
-            /*$castles = $this->db->getCastles();
+            $castles = $this->db->getCastles();
             foreach ($castles as $castle){
                 if((float)$castle->nextRentTime<=(float)$time){
-                    $rent= $this->db->getUnitsTypes()->rent * $this->db->countUnitsGamer($castle->id);
+                    $rent= $this->db->getUnitsTypes()->cost * 0.1 * $this->db->countUnitsGamer($castle->id);
                     $gamer= $castle->id;
                     $this->db->updateMoney($gamer,-$rent);
                     if($castle->money-$rent<=0) {
@@ -109,8 +109,10 @@
                     }
                     //обновить время следующей ренты
                     $isUpdate = true;
+                    $nextRentTime= $time + $this->config->intervalRentMinutes;
+                    $this->db->updateNextRentTime($gamer,$nextRentTime);
                 }
-            }*/
+            }
             if ($isUpdate) {
                 $this->db->setMapHash(md5(rand()));
             }
