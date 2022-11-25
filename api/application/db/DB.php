@@ -172,6 +172,12 @@ class DB {
             return $this->db->query($query)->fetchObject()->money;
         }
 
+   public function updateNextRentTime($gamer,$time){
+        $query = 'UPDATE gamers SET nextRentTime ='. $time . ' WHERE id='.$gamer;
+        $this->db->query($query);
+        return true;
+   }
+
     public function updateMoney($gamer, $money) {
         $query = '
             UPDATE gamers 
@@ -310,6 +316,12 @@ class DB {
     public function updateUnitHP($unitId,$hp){
         $query='UPDATE units
             SET  hp='. $hp . 'WHERE id='. $unitId;
+        $this->db->query($query);
+        return true;
+    }
+
+    public function deadUnits (){
+        $query = 'DELETE FROM units WHERE hp <='. 0;
         $this->db->query($query);
         return true;
     }

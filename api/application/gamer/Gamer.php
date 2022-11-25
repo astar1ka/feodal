@@ -100,14 +100,12 @@
         }
 
         public function updateUnits($gamer,$myUnits,$otherUnits,$villages) {
-            $myUnits=json_decode($myUnits);
-            $otherUnits=json_decode($villages,false);
-            $villages=json_decode($villages,false);
+
             if ($myUnits) {
                 $this->updateGamerUnits($gamer,$myUnits);
             }
             if ($otherUnits) {
-                //$this->updateOtherUnits($otherUnits);
+                $this->updateOtherUnits($otherUnits);
             }
             if ($villages) {
                 $this->damageVillages($villages);
@@ -118,6 +116,7 @@
                 $this->db->setMapTimeStamp($time);
                 return $time;
             }
+            $this->db->deadUnits();
         }
 
         private function updateGamerUnits($gamer,$units){
@@ -127,6 +126,22 @@
                         $this->db->updateUnit($unit->id,$gamer->id,$unit->hp,$unit->posX,$unit->posY,$unit->status,$unit->direction);
                         $isUpdate = true;
                 }
+            }
+            if ($isUpdate) {
+                $this->db->setUnitsHash(md5(rand()));
+            }
+        }
+
+        private function updateOtherUnits($otherUnits){
+            $isUpdate = false;
+            foreach ($otherUnits as $otherUnit){
+
+                if($otherUnit ){
+                    $dbUnit= $this->db->getUnit($otherUnit->id);
+                    if ($otherUnit->hp<$dbUnit->hp)
+                    $this->db->updateUnitHP($otherUnit->hp);
+                }
+
             }
             if ($isUpdate) {
                 $this->db->setUnitsHash(md5(rand()));
