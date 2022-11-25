@@ -138,8 +138,9 @@
 
                 if($otherUnit ){
                     $dbUnit= $this->db->getUnit($otherUnit->id);
-                    if ($otherUnit->hp<$dbUnit->hp)
+                    if ($dbUnit && $otherUnit->hp<$dbUnit->hp)
                     $this->db->updateUnitHP($otherUnit->hp);
+                    $isUpdate = true;
                 }
 
             }
