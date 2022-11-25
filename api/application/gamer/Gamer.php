@@ -136,12 +136,12 @@
             $isUpdate = false;
             foreach ($otherUnits as $otherUnit){
 
-                if($otherUnit ){
+
                     $dbUnit= $this->db->getUnit($otherUnit->id);
                     if ($dbUnit && $otherUnit->hp<$dbUnit->hp)
                     $this->db->updateUnitHP($otherUnit->hp);
                     $isUpdate = true;
-                }
+
 
             }
             if ($isUpdate) {
