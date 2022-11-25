@@ -139,7 +139,7 @@
 
                     $dbUnit= $this->db->getUnit($otherUnit->id);
                     if ($dbUnit && $otherUnit->hp<$dbUnit->hp)
-                    $this->db->updateUnitHP($otherUnit->hp);
+                    $this->db->updateUnitHP($otherUnit->id ,$otherUnit->hp);
                     $isUpdate = true;
 
 
