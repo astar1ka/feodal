@@ -30,6 +30,8 @@
         }
 
         function getUser($token) {
-            return $this->db->getUserByToken($token);
+            if ($token) {
+                return $this->db->getUserByToken($token);
+            }
         }
     }
