@@ -20,7 +20,7 @@ class Application {
     }
 
     // Функция проверки типа полученных значений в запросе
-    private function checkParams($params){
+    private function checkParamsType($params){
         foreach ($params as $param => $value){
             switch($param){
                 case "token":
@@ -63,7 +63,7 @@ class Application {
 
     public function login($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             if ($params['login'] && $params['password']){
                 return $this->user->login($params['login'], $params['password']);
             }
@@ -72,7 +72,7 @@ class Application {
 
     public function registration($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             [
                 'login' => $login,
                 'password' => $password,
@@ -85,7 +85,7 @@ class Application {
     }
 
     public function logout($params) {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 return $this->user->logout($user);
@@ -99,7 +99,7 @@ class Application {
 
     public function sendMessage($params, $type)
     {
-        if($this->checkParams($params)){
+        if($this->checkParamsType($params)){
             [
                 'token' => $token,
                 'message' => $message,
@@ -117,7 +117,7 @@ class Application {
 
     public function getMessages($params)
     {
-        if($this->checkParams($params)){
+        if($this->checkParamsType($params)){
             if ($params['hash']) {
                 $user = $this->user->getUser($params['token']);
                 if ($user) {
@@ -129,7 +129,7 @@ class Application {
 
     public function getLoggedUsers($params)
     {
-        if($this->checkParams($params)){
+        if($this->checkParamsType($params)){
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 return $this->chat->getLoggedUsers();
@@ -144,7 +144,7 @@ class Application {
 
     public function getMap($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 return $this->game->getMap();
@@ -154,7 +154,7 @@ class Application {
 
     public function getUnitsTypes($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 return $this->game->getUnitsTypes();
@@ -164,7 +164,7 @@ class Application {
 
     public function getScene($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 return $this->game->getScene($params['unitsHash'], $params['mapHash']);
@@ -176,7 +176,7 @@ class Application {
     ////////////////////////////////////////
     public function getCastle($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 $gamer = $this->gamer->getGamer($user);
@@ -193,7 +193,7 @@ class Application {
 
     public function upgradeCastle($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 $gamer = $this->gamer->getGamer($user);
@@ -206,7 +206,7 @@ class Application {
 
     public function buyUnit($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             if ($params['unitType']){
                 $user = $this->user->getUser($params['token']);
                 if ($user) {
@@ -221,7 +221,7 @@ class Application {
 
     public function robVillage($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 $gamer = $this->gamer->getGamer($user);
@@ -235,7 +235,7 @@ class Application {
 
     public function destroyVillage($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $user = $this->user->getUser($params['token']);
             if ($user) {
                 $gamer = $this->gamer->getGamer($user);
@@ -249,7 +249,7 @@ class Application {
 
     public function destroyCastle($params)
     {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $userId = $this->user->getUser($params['token']);
             if ($userId && $params['castle']) {
                 $castle = $this->game->getCastle($params['castle']);
@@ -263,7 +263,7 @@ class Application {
     }
 
     public function updateUnits($params) {
-        if ($this->checkParams($params)) {
+        if ($this->checkParamsType($params)) {
             $userId = $this->user->getUser($params['token']);  
             if  ($userId){
                 $gamer = $this->gamer->getGamer($userId);
