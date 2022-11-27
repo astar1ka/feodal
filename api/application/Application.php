@@ -21,7 +21,7 @@ class Application {
 
     // Функция проверки типа полученных значений в запросе
     private function checkParamsType($params){
-        foreach ($params as $param => $value){
+        /*foreach ($params as $param => $value){
             switch($param){
                 case "token":
                     if(is_numeric($value)) return false;
@@ -53,7 +53,7 @@ class Application {
                 // TODO
                 // ...
             }
-        }
+        }*/
         return true;
     }
 
