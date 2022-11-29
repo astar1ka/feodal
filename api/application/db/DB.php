@@ -292,6 +292,14 @@ class DB {
         return $this->getArray($query);
     }
 
+    public function getUnit($unitId) {
+        $query = '
+        SELECT hp
+        FROM units 
+        WHERE id=' . $unitId;
+    return $this->db->query($query)->fetchObject();
+    }
+
     public function countUnitsGamer($gamerId){
         $query ='SELECT count(*) FROM units WHERE gamerId='.$gamerId;
         return $this->db->query($query)->fetchObject();
