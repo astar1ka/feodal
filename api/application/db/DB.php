@@ -40,6 +40,11 @@ class DB {
         $this->db->query($query);
         return true;
     }
+    
+    //Проверка влетаемых данных из БД
+    private function checkParams(){
+
+    }
 
     ////////////////////////////////////////
     //////////////forUser///////////////////
