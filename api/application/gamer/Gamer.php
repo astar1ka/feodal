@@ -117,9 +117,9 @@
             }
         }
 
-        private function updateGamerUnits($gamer,$units){
+        private function updateGamerUnits($gamer,$myUnits){
             $isUpdate = false;
-            foreach($units as $unit){
+            foreach($myUnits as $unit){
                 if($unit){
                         $this->db->updateUnit($gamer->id,$unit->id,$unit->hp,$unit->posX,$unit->posY,$unit->status,$unit->direction);
                         $isUpdate = true;
