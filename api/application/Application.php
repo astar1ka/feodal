@@ -8,8 +8,7 @@ require("gamer/Gamer.php");
 require("map/Map.php");
 
 class Application {
-    function __construct()
-    {
+    function __construct(){
         $config = json_decode(file_get_contents('./config/config.json'), true);
         $db = new DB($config["DataBase"]);
         $map = new Map($db);
@@ -21,8 +20,46 @@ class Application {
 
     //функция проверки полученных значений в запросе
     private function checkParams($params){
-        if (($params['token']) && !is_string($params['token'])) return false;
-        return true;
+        $method = $params['method'];
+        if($params['token'] && is_string($params['token'])){
+            switch($method){
+                case 'login':
+                    if(!is_string($params['login']) && !is_string($params['password'])){ 
+                        return false;
+                    } 
+                    return true;
+                case 'registration':
+                    if(!is_string($params['login']) && !is_string($params['password']) && !is_string($params['name'])){
+                        return false;
+                    }
+                    return true;
+                case 'sendMessageAll':
+                    if(!is_string($params['message'])){
+                        return false;
+                    }
+                    return true;
+                case 'sendMessageTo':
+                    if(!is_string($params['message']) && !is_string($params['messageTo'])){
+                        return false;
+                    }
+                    return true;
+                case 'getMessages':
+                    if(!is_string($params['hash'])){
+                        return false;
+                    }
+                    return true;  
+                case 'getScene':
+                    if(!is_string($params['mapHash']) && !is_string($params['unitsHash'])){
+                        return false;
+                    }
+                    return true;       
+                case 'buyUnit':
+                    if(!is_numeric($params['unitType'])){
+                        return false;
+                    }
+                    return true;       
+            }
+        }
     }
 
     ////////////////////////////////////////
@@ -213,7 +250,7 @@ class Application {
             if  ($userId){
                 $gamer = $this->gamer->getGamer($userId);
                 if ($gamer) {
-                    $time = $this->gamer->updateUnits($gamer, $data->myUnits, $params['otherUnits'], $params['villages']);
+                    $time = $this->gamer->updateUnits($gamer, $data->myUnits, $params['otherUnits'], $params['villages'], $params['myUnits']);
                     if ($time) {
                         $this->game->updateMap($time);
                     }
