@@ -139,6 +139,7 @@ class Application {
                 $this->gamer->addCastle($user);
                 $gamer = $this->gamer->getGamer($user);
             }
+            $gamer->castleUpgradeCost = $this->gamer->getCastleLevelCost($gamer->level);
             return array(
                 'castle' => $gamer
             );
@@ -213,7 +214,7 @@ class Application {
             if  ($userId){
                 $gamer = $this->gamer->getGamer($userId);
                 if ($gamer) {
-                    $time = $this->gamer->updateUnits($gamer, $data->myUnits, $params['otherUnits'], $params['villages']);
+                    $time = $this->gamer->updateUnits($gamer, $data->myUnits, $data->otherUnits, $params['villages']);
                     if ($time) {
                         $this->game->updateMap($time);
                     }

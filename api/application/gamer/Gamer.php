@@ -5,7 +5,7 @@
             $this->map=$map;
         }
 
-        private function getCastleLevelCost($level) {
+        public function getCastleLevelCost($level) {
             return 300*$level + $level*$level*200;
         }
 
@@ -38,7 +38,8 @@
                     $hash = md5(rand());
                     $this->db->setMapHash($hash);
                     return array (
-                        'money'=>$this->db->getMoney($gamer->id)
+                        'money'=>$this->db->getMoney($gamer->id),
+                        'castleUpgradeCost'=> $this->getCastleLevelCost($gamer->level+1)
                     );
                 }
             }
@@ -99,6 +100,8 @@
             return $this->db->getGamer($userId);
         }
 
+
+
         public function updateUnits($gamer,$myUnits,$otherUnits,$villages) {
             if ($myUnits) {
                 $this->updateGamerUnits($gamer,$myUnits);
@@ -111,6 +114,7 @@
             }
             $statuses = $this->db->getStatuses();
             $time = microtime(true);
+            $this->db->deadUnits();
             if ($time - $statuses->mapTimeStamp >= 0.3) {
                 $this->db->setMapTimeStamp($time);
                 return $time;
