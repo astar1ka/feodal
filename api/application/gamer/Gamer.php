@@ -86,16 +86,6 @@
             );
         }
 
-        public function destroyCastle($gamer,$castle) {
-            if ($gamer->id != $castle->id) {
-                $this->db->destroyCastle($castle->id);
-                $this->db->updateMoney($gamer->id, $castle->money);
-                return array(
-                    'money'=>$this->db->getMoney($gamer->id),
-                );
-            }
-        }
-
         public function getGamer($userId) {
             return $this->db->getGamer($userId);
         }

@@ -202,7 +202,7 @@ class Application {
             $unitsInCastle = $this->gamer->getUnitsinCastle($params['castle']);
             $gamer = $this->gamer->getGamer($userId);
             if ($gamer && $castle && !$unitsInCastle) {
-                return $this->gamer->destroyCastle($gamer, $castle);
+                return $this->game->destroyCastle($gamer, $castle);
             }
         }
     }
