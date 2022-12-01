@@ -22,9 +22,6 @@ class Application {
     //функция проверки полученных значений в запросе
     private function checkParams($params){
         foreach($params as $param=>$value){
-            if($param == 'method' && !is_string($value)){
-                return false;
-            }
             if($param == 'token' && !is_string($value) && strlen($value) > 16){
                 return false;
             }
@@ -43,13 +40,13 @@ class Application {
             if($param == 'messageTo' && !is_numeric($value)){
                 return false;
             }
-            if($param == 'hash' && !is_string($value) && strlen($value) > 16 ){
+            if($param == 'hash' && !is_string($value) && !(strlen($value) == 32) ){
                 return false;
             }
-            if($param == 'mapHash' && !is_string($value) && strlen($value) > 16 ){
+            if($param == 'mapHash' && !is_string($value) && !(strlen($value) == 32) ){
                 return false;
             }
-            if($param == 'unitsHash' && !is_string($value) && strlen($value) > 16 ){
+            if($param == 'unitsHash' && !is_string($value) && !(strlen($value) == 32) ){
                 return false;
             }
             if($param == 'unitType' && !is_numeric($value)){
