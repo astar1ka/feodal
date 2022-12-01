@@ -132,7 +132,6 @@ class Application {
     //////////////forGame///////////////////
     ////////////////////////////////////////
 
-
     public function getMap($params){
         if ($this->checkParams($params)) {
             $user = $this->user->getUser($params['token']);
