@@ -22,9 +22,6 @@ class Application {
     //функция проверки полученных значений в запросе
     private function checkParams($params){
         foreach($params as $param=>$value){
-            if($param == 'method' && !is_string($value)){
-                return false;
-            }
             if($param == 'token' && !is_string($value) && strlen($value) > 16){
                 return false;
             }
