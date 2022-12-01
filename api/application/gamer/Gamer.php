@@ -111,11 +111,12 @@
             }
         }
 
-        private function updateGamerUnits($gamer,$units){
+        private function updateGamerUnits($gamer,$myUnits){
             $isUpdate = false;
-            foreach($units as $unit){
-                if($unit){
-                        $this->db->updateUnit($gamer->id,$unit->id,$unit->hp,$unit->posX,$unit->posY,$unit->status,$unit->direction);
+            foreach($myUnits as $myUnit){
+                $dbUnit = $this->db->getUnit($myUnit->id);
+                if($myUnit && $myUnit->hp<$dbUnit->hp){
+                        $this->db->updateUnit($gamer->id,$myUnit->id,$myUnit->hp,$myUnit->posX,$myUnit->posY,$myUnit->status,$myUnit->direction);
                         $isUpdate = true;
                 }
             }
@@ -123,6 +124,9 @@
                 $this->db->setUnitsHash(md5(rand()));
             }
         }
+
+
+
 
         private function updateOtherUnits($otherUnits){
             $isUpdate = false;
