@@ -21,7 +21,7 @@ class Application {
 
     //функция проверки полученных значений в запросе
     private function checkParams($params){
-        $method = $params['method'];
+        /*$method = $params['method'];
         if($params['token'] && is_string($params['token'])){
             switch($method){
                 case 'login':
@@ -60,7 +60,8 @@ class Application {
                     }
                     return true;       
             }
-        }
+        }*/
+        return true;
     }
 
     ////////////////////////////////////////
