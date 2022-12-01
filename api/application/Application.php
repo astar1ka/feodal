@@ -21,46 +21,41 @@ class Application {
 
     //функция проверки полученных значений в запросе
     private function checkParams($params){
-        /*$method = $params['method'];
-        if($params['token'] && is_string($params['token'])){
-            switch($method){
-                case 'login':
-                    if(!is_string($params['login']) && !is_string($params['password'])){ 
-                        return false;
-                    } 
-                    return true;
-                case 'registration':
-                    if(!is_string($params['login']) && !is_string($params['password']) && !is_string($params['name'])){
-                        return false;
-                    }
-                    return true;
-                case 'sendMessageAll':
-                    if(!is_string($params['message'])){
-                        return false;
-                    }
-                    return true;
-                case 'sendMessageTo':
-                    if(!is_string($params['message']) && !is_string($params['messageTo'])){
-                        return false;
-                    }
-                    return true;
-                case 'getMessages':
-                    if(!is_string($params['hash'])){
-                        return false;
-                    }
-                    return true;  
-                case 'getScene':
-                    if(!is_string($params['mapHash']) && !is_string($params['unitsHash'])){
-                        return false;
-                    }
-                    return true;       
-                case 'buyUnit':
-                    if(!is_numeric($params['unitType'])){
-                        return false;
-                    }
-                    return true;       
+        foreach($params as $param=>$value){
+            if($param == 'method' && !is_string($value)){
+                return false;
             }
-        }*/
+            if($param == 'token' && !is_string($value) && strlen($value) > 16){
+                return false;
+            }
+            if($param == 'login' && !is_string($value) && strlen($value) > 16){
+                return false;
+            }
+            if($param == 'password' && !is_string($value) && strlen($value) > 16){
+                return false;
+            }
+            if($param == 'name' && !is_string($value) && strlen($value) > 16){
+                return false;
+            }
+            if($param == 'message' && !is_string($value) && strlen($value) > 256 ){
+                return false;
+            }
+            if($param == 'messageTo' && !is_numeric($value)){
+                return false;
+            }
+            if($param == 'hash' && !is_string($value) && strlen($value) > 16 ){
+                return false;
+            }
+            if($param == 'mapHash' && !is_string($value) && strlen($value) > 16 ){
+                return false;
+            }
+            if($param == 'unitsHash' && !is_string($value) && strlen($value) > 16 ){
+                return false;
+            }
+            if($param == 'unitType' && !is_numeric($value)){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -136,7 +131,6 @@ class Application {
     ////////////////////////////////////////
     //////////////forGame///////////////////
     ////////////////////////////////////////
-
 
     public function getMap($params){
         if ($this->checkParams($params)) {
