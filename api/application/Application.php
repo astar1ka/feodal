@@ -159,7 +159,7 @@ class Application {
         if ($user) {
             $gamer = $this->gamer->getGamer($user);
             if (!$gamer) {
-                $this->gamer->addCastle($user);
+                $this->game->addCastle($user);
                 $gamer = $this->gamer->getGamer($user);
             }
             $gamer->castleUpgradeCost = $this->gamer->getCastleLevelCost($gamer->level);

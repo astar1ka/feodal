@@ -9,26 +9,6 @@
             return 300*$level + $level*$level*200;
         }
 
-        public function addCastle($userId) {
-            $castleX = rand(10000,80000) / 1000;
-            $castleY = rand(10000,80000) / 1000;
-
-            $nextRentTime = microtime(true) + 7200000;
-
-            $castleColor = '#' . substr(md5(mt_rand()), 0, 6);
-
-            $this->db->addCastle($userId, $castleColor, $castleX, $castleY, $nextRentTime);
-
-            $gamer = $this->db->getGamer($userId);
-            $unitTypeData = $this->db->getUnitTypeData(1);
-            $this->db->addUnit($gamer->id, 1, $unitTypeData->hp, $gamer->posX, $gamer->posY, microtime(true));
-
-            $hash = md5(rand());
-            $this->db->setMapHash($hash);
-            $this->db->setUnitsHash($hash);
-            return true;
-        }
-
         public function upgradeCastle($gamer) {
             if ($gamer->level < 5) {
                 $cost = $this->getCastleLevelCost($gamer->level);
