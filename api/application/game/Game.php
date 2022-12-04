@@ -24,10 +24,6 @@
             $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
-        public function getUnitsTypes() {
-            return $this->db->getUnitsTypes();
-        }
-
         public function getVillage($villageId) {
             return $this->db->getVillage($villageId);
         }
@@ -52,6 +48,26 @@
             return array (
                 'money'=>$this->db->getMoney($gamer->id)
             );
+        }
+
+        public function addCastle($userId) {
+            $castleX = rand(10000,80000) / 1000;
+            $castleY = rand(10000,80000) / 1000;
+
+            $nextRentTime = microtime(true) + 7200000;
+
+            $castleColor = '#' . substr(md5(mt_rand()), 0, 6);
+
+            $this->db->addCastle($userId, $castleColor, $castleX, $castleY, $nextRentTime);
+
+            $gamer = $this->db->getGamer($userId);
+            $unitTypeData = $this->db->getUnitTypeData(1);
+            $this->db->addUnit($gamer->id, 1, $unitTypeData->hp, $gamer->posX, $gamer->posY, microtime(true));
+
+            $hash = md5(rand());
+            $this->db->setMapHash($hash);
+            $this->db->setUnitsHash($hash);
+            return true;
         }
 
         public function getCastle($castleId) {
@@ -93,6 +109,10 @@
                 $result['villages'] = $this->db->getVillages();                   
             }
             return $result;
+        }
+
+        public function getUnitsTypes() {
+            return $this->db->getUnitsTypes();
         }
 
         public function getMap() {
