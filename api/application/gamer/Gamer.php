@@ -64,33 +64,9 @@
             }
         }
 
-        public function robVillage($gamer, $village) {
-            $lootedMoney = (int)($village->money / 10);
-            if (!$lootedMoney) {
-                return $this->destroyVillage($gamer, $village);
-            }
-            $this->db->robVillage($village->id, $lootedMoney);
-            $this->db->updateMoney($gamer->id, $lootedMoney);
-            $hash = md5(rand());
-            $this->db->setMapHash($hash);
-            return array (
-                'money'=>$this->db->getMoney($gamer->id)
-            );
-        }
-
-        public function destroyVillage($gamer,$village) {
-            $this->db->destroyVillage($village->id);
-            $this->db->updateMoney($gamer->id, $village->money);
-            return array (
-                'money'=>$this->db->getMoney($gamer->id)
-            );
-        }
-
         public function getGamer($userId) {
             return $this->db->getGamer($userId);
         }
-
-
 
         public function updateUnits($gamer,$myUnits,$otherUnits,$villages) {
             if ($myUnits) {
@@ -124,9 +100,6 @@
                 $this->db->setUnitsHash(md5(rand()));
             }
         }
-
-
-
 
         private function updateOtherUnits($otherUnits){
             $isUpdate = false;

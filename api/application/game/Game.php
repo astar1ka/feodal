@@ -24,22 +24,34 @@
             $this->db->createVillage($subname.' '.$name, $posX, $posY);
         }
 
-        public function getMap() {
-            $map = $this->db->getMap(1);
-            return array(
-                'map'=>array(
-                    'ground'=>json_decode($map->ground),
-                    'plants'=>json_decode($map->plants),
-                    'trees'=>json_decode($map->trees)
-                ));
-        }
-
         public function getUnitsTypes() {
             return $this->db->getUnitsTypes();
         }
 
         public function getVillage($villageId) {
             return $this->db->getVillage($villageId);
+        }
+
+        public function robVillage($gamer, $village) {
+            $lootedMoney = (int)($village->money / 10);
+            if (!$lootedMoney) {
+                return $this->destroyVillage($gamer, $village);
+            }
+            $this->db->robVillage($village->id, $lootedMoney);
+            $this->db->updateMoney($gamer->id, $lootedMoney);
+            $hash = md5(rand());
+            $this->db->setMapHash($hash);
+            return array (
+                'money'=>$this->db->getMoney($gamer->id)
+            );
+        }
+
+        public function destroyVillage($gamer, $village) {
+            $this->db->destroyVillage($village->id);
+            $this->db->updateMoney($gamer->id, $village->money);
+            return array (
+                'money'=>$this->db->getMoney($gamer->id)
+            );
         }
 
         public function getCastle($castleId) {
@@ -83,6 +95,16 @@
             return $result;
         }
 
+        public function getMap() {
+            $map = $this->db->getMap(1);
+            return array(
+                'map'=>array(
+                    'ground'=>json_decode($map->ground),
+                    'plants'=>json_decode($map->plants),
+                    'trees'=>json_decode($map->trees)
+                ));
+        }
+        
         public function updateMap($time) {
             // обновить все деревни
             $isUpdated = false;

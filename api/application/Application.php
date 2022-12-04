@@ -197,7 +197,7 @@ class Application {
             $gamer = $this->gamer->getGamer($user);
             $village = $this->game->getVillage($params['village']);
             if ($gamer && $village) {
-                return $this->gamer->robVillage($gamer, $village);
+                return $this->game->robVillage($gamer, $village);
             }
         }
     }
@@ -208,7 +208,7 @@ class Application {
             $gamer = $this->gamer->getGamer($user);
             $village = $this->game->getVillage($params['village']);
             if ($gamer && $village) {
-                return $this->gamer->destroyVillage($gamer, $village);
+                return $this->game->destroyVillage($gamer, $village);
             }
         }
     }
