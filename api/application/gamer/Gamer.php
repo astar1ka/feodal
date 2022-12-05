@@ -5,6 +5,10 @@
             $this->map=$map;
         }
 
+        public function getGamer($userId) {
+            return $this->db->getGamer($userId);
+        }
+        
         public function getCastleLevelCost($level) {
             return 300*$level + $level*$level*200;
         }
@@ -36,16 +40,6 @@
                     'money'=>$this->db->getMoney($gamer->id)
                 );
             }
-        }
-
-        public function getUnitsInCastle($gamerId) {
-            if ($gamerId) {
-                return $this->db->getUnitsInCastle($gamerId);
-            }
-        }
-
-        public function getGamer($userId) {
-            return $this->db->getGamer($userId);
         }
 
         public function updateUnits($gamer,$myUnits,$otherUnits,$villages) {

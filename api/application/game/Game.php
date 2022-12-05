@@ -115,6 +115,12 @@
             return $this->db->getUnitsTypes();
         }
 
+        public function getUnitsInCastle($gamerId) {
+            if ($gamerId) {
+                return $this->db->getUnitsInCastle($gamerId);
+            }
+        }
+
         public function getMap() {
             $map = $this->db->getMap(1);
             return array(
