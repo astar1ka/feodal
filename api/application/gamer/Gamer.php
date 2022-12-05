@@ -66,8 +66,12 @@
             foreach($myUnits as $myUnit){
                 $dbUnit = $this->db->getUnit($myUnit->id);
                 if($myUnit && $myUnit->hp<$dbUnit->hp){
-                        $this->db->updateUnit($gamer->id,$myUnit->id,$myUnit->hp,$myUnit->posX,$myUnit->posY,$myUnit->status,$myUnit->direction);
-                        $isUpdate = true;
+                    $this->db->updateUnit($gamer->id,$myUnit->id,$myUnit->hp,$myUnit->posX,$myUnit->posY,$myUnit->status,$myUnit->direction);
+                    $isUpdate = true;
+                }
+                if($myUnit && $myUnit->hp>$dbUnit->hp){
+                    $this->db->updateUnit($gamer->id,$myUnit->id,$dbUnit->hp,$myUnit->posX,$myUnit->posY,$myUnit->status,$myUnit->direction);
+                    $isUpdate = true;
                 }
             }
             if ($isUpdate) {
