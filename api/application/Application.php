@@ -214,20 +214,24 @@ class Application {
     }
 
     public function destroyCastle($params){
-        $userId = $this->user->getUser($params['token']);
-        if ($userId && $params['castle']) {
-            $castle = $this->game->getCastle($params['castle']);
-            $unitsInCastle = $this->game->getUnitsinCastle($params['castle']);
-            $gamer = $this->gamer->getGamer($userId);
-            if ($gamer && $castle && !$unitsInCastle) {
-                return $this->game->destroyCastle($gamer, $castle);
+        $killerId = $this->user->getUser($params['token']);
+        if ($killerId && $params['victimId']) {
+            $killer = $this->gamer->getGamer($killerId);
+            if ($killer) {
+                return $this->game->destroyCastle($killer, $params['victimId']);
             }
         }
     }
 
     public function updateUnits($params) {
         $postBody = file_get_contents("php://input");
-        $data = json_decode($postBody);
+        try {
+            $data = json_decode($postBody);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+            die;
+        }
+        if ($data) {
             $userId = $this->user->getUser($data->token); 
             if  ($userId){
                 $gamer = $this->gamer->getGamer($userId);
@@ -238,6 +242,7 @@ class Application {
                     }
                 return true;
                 } 
+        }
         }
     }
 }
