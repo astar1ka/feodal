@@ -217,7 +217,7 @@ class Application {
         $userId = $this->user->getUser($params['token']);
         if ($userId && $params['castle']) {
             $castle = $this->game->getCastle($params['castle']);
-            $unitsInCastle = $this->gamer->getUnitsinCastle($params['castle']);
+            $unitsInCastle = $this->game->getUnitsinCastle($params['castle']);
             $gamer = $this->gamer->getGamer($userId);
             if ($gamer && $castle && !$unitsInCastle) {
                 return $this->game->destroyCastle($gamer, $castle);
