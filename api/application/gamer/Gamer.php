@@ -60,6 +60,22 @@
                 return $time;
             }
         }
+        
+        public function damageUnits($units){
+            $isUpdate = false;
+            foreach($units as $unit){
+                if($unit){
+                    $dbUnit = $this->db->getUnit($unit->id);
+                    if($unit->hp<$dbUnit->hp){
+                        $this->db->updateUnitHP($unit->hp);
+                        $isUpdate = true; 
+                    }
+                }
+            }
+            if($isUpdate){
+                $this->db->setUnitsHash(md5(rand()));
+            }
+        }
 
         private function updateGamerUnits($gamer,$myUnits){
             $isUpdate = false;
