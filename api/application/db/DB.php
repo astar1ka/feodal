@@ -80,8 +80,10 @@ class DB {
         $query = '
             UPDATE users 
             SET token="' . $token . '" 
-            WHERE id=' . $id;
-        $this->db->query($query);
+            WHERE id=?';
+        $this->db->quote($id);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$id]);
         return true;
     }
 
@@ -92,9 +94,13 @@ class DB {
     public function addMessage($user, $message, $messageTo) {
         $query = '
                 INSERT INTO messages (userId, message, messageTo) 
-                VALUES (' . $user . ',"' . $message . '", ' .  $messageTo . ')
+                VALUES (:user,"' . $message . '", '.$messageTo.')
             ';
-        $this->db->query($query);
+        $this->db->quote($user);
+        $this->db->quote($messageTo);
+        $sth = $this->db->prepare($query);
+        $sth->execute(array('user'=>$user));
+
         return true;
     }
 
@@ -115,8 +121,11 @@ class DB {
         $query = '
                 SELECT ground,plants,trees
                 FROM Maps
-                WHERE id='.$id;
-        return $this->db->query($query)->fetchObject();
+                WHERE id=?';
+        $this->db->quote($id);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$id]);
+        return $sth->fetchObject();
     }
 
     public function getUnitsTypes() {
@@ -142,8 +151,11 @@ class DB {
     }
 
     public function getCastle($id) {
-        $query = 'SELECT id, castleX as posX, castleY as posY, money, nextRentTime FROM gamers WHERE id='.$id;
-        return $this->db->query($query)->fetchObject();
+        $query = 'SELECT id, castleX as posX, castleY as posY, money, nextRentTime FROM gamers WHERE id=?';
+        $this->db->quote($id);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$id]);
+        return $sth->fetchObject();
     }
 
     public function getCastles() {
@@ -159,8 +171,11 @@ class DB {
         $query = '
                 UPDATE gamers SET 
                 castleLevel=castleLevel + 1   
-                WHERE id=' . $gamerId;
-        $this->db->query($query);
+                WHERE id=?';
+        $this->db->quote($gamerId);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$gamerId]);
+
         return true;
     }
 
@@ -168,16 +183,22 @@ class DB {
             $query = '
             SELECT money 
             FROM gamers 
-            WHERE id=' . $gamerId;
-            return $this->db->query($query)->fetchObject()->money;
+            WHERE id=?';
+        $this->db->quote($gamerId);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$gamerId]);
+            return $sth->fetchObject()->money;
         }
 
     public function updateMoney($gamer, $money) {
         $query = '
             UPDATE gamers 
             SET money=money+' . $money . ' 
-            WHERE id=' . $gamer;
-        $this->db->query($query);
+            WHERE id=?';
+        $this->db->quote($gamer);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$gamer]);
+
         return true;
     }
 
@@ -200,8 +221,13 @@ class DB {
     }
 
     public function getVillage($id) {
-        $query = 'SELECT id, money, population FROM villages WHERE id='.$id;
-        return $this->db->query($query)->fetchObject();
+        $query = 'SELECT id, money, population FROM villages WHERE id=?';
+
+        $this->db->quote($id);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$id]);
+
+        return $sth->fetchObject();
     }
 
     public function getVillages() {
@@ -221,7 +247,7 @@ class DB {
 
     // Пока не стали удалять
     /*public function updateVillagesLevel() {
-        $query = 'UPDATE villages 
+        $query = 'UPDATE villages
                 SET money = money - 300*level-level*level*200,
                 level=level + 1
                 WHERE (money>300*level+level*level*200) AND (level<11)';
@@ -252,8 +278,9 @@ class DB {
     }
 
     public function destroyVillage($id) {
-        $query = 'DELETE FROM villages WHERE id=' . $id;
-        $this->db->query($query);
+        $query = 'DELETE FROM villages WHERE id=?';
+        $sth = $this->db->prepare($query);
+        $sth->execute([$id]);
         return true;
     }
     ////////////////////////////////////////
@@ -272,8 +299,11 @@ class DB {
         $query = '
             SELECT cost, hp
             FROM unitsTypes 
-            WHERE id=' . $unitType;
-        return $this->db->query($query)->fetchObject();
+            WHERE id=?';
+        $this->db->quote($unitType);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$unitType]);
+        return $sth->fetchObject();
     }
 
     public function getUnitsInCastle($castleId){
@@ -296,8 +326,12 @@ class DB {
         $query = '
         SELECT hp
         FROM units 
-        WHERE id=' . $unitId;
-    return $this->db->query($query)->fetchObject();
+        WHERE id=?';
+        $this->db->quote($unitId);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$unitId]);
+
+    return $sth->fetchObject();
     }
 
     public function countUnitsGamer($gamerId){
@@ -335,8 +369,12 @@ class DB {
         $query = '
             SELECT id, castleLevel as level, castleColor as color, castleX as posX, castleY as posY, money
             FROM gamers 
-            WHERE userId=' . $user;
-        return $this->db->query($query)->fetchObject();
+            WHERE userId=?';
+        $this->db->quote($user);
+        $sth = $this->db->prepare($query);
+        $sth->execute([$user]);
+
+        return $sth->fetchObject();
     }
 
     /* About statuses */
